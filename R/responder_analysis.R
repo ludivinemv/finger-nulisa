@@ -93,7 +93,7 @@ if (!dir.exists(output_path)) {
 }
 
 # Check input files
-for (f in c(paste0(processed_path, "dataset_with_halfmin_zero_replacement.csv"),
+for (f in c(paste0(processed_path, "dataset_original.csv"),
             paste0(original_path, "luovutettavat_85_1_merge.csv"))) {
   if (!file.exists(f)) stop("Input file not found:\n", f, "\nCheck folder_path.")
 }
@@ -107,11 +107,8 @@ cat("Output path:", output_path, "\n")
 #   (winsorize -> z-score where applicable; no further log).
 # Lumipulse pTau217 (concentration) would still be log-transformed, but it is
 #   not used in this script.
-# Zeros in APOE4, CHIT1, GDF15 are valid NPQ values -> original columns used.
-#   Set use_halfmin <- TRUE to go back to the half-minimum columns.
 # Internal variable names (bm0_log, bm0_log_z, ...) are kept so output column
 #   names stay the same as before.
-use_halfmin <- FALSE
 
 needs_log <- function(bm_name) grepl("lumipulse", bm_name)
 
@@ -143,7 +140,7 @@ drop_excluded <- function(bm_names) {
 
 file_path <- paste0(
   processed_path,
-  "dataset_with_halfmin_zero_replacement.csv"
+  "dataset_original.csv"
 )
 
 df_first <- read_csv(
@@ -1235,30 +1232,11 @@ run_responder_biomarker <- function(
   # Select correct baseline biomarker column
   # -------------------------------------------------------
   
-  # Use already half-minimum-replaced columns
   # exactly as in previous NULISA analyses
-  
-  if (
-    use_halfmin && bm_base %in%
-    c(
-      "nulisa_APOE4",
-      "nulisa_CHIT1",
-      "nulisa_GDF15"
-    )
-  ) {
-    
-    bm0 <- paste0(
-      bm_base,
-      "_0_halfmin"
-    )
-    
-  } else {
-    
-    bm0 <- paste0(
+  bm0 <- paste0(
       bm_base,
       "_0"
     )
-  }
   
   
   # -------------------------------------------------------
@@ -1866,28 +1844,11 @@ df_common <- df_resp %>%
 
 for (bm_base in biomarker_names) {
   
-  if (
-    use_halfmin && bm_base %in%
-    c(
-      "nulisa_APOE4",
-      "nulisa_CHIT1",
-      "nulisa_GDF15"
-    )
-  ) {
-    
-    bm0 <- paste0(
-      bm_base,
-      "_0_halfmin"
-    )
-    
-  } else {
-    
-    bm0 <- paste0(
+  bm0 <- paste0(
       bm_base,
       "_0"
     )
-  }
-  
+
   
   if (!(bm0 %in% names(df_common))) {
     
@@ -2747,7 +2708,7 @@ library(stringr)
 # 1. File paths
 # ---------------------------------------------------------
 
-file_path <- paste0(processed_path, "dataset_with_halfmin_zero_replacement.csv")
+file_path <- paste0(processed_path, "dataset_original.csv")
 
 adherence_path <- paste0(original_path, "luovutettavat_85_1_merge.csv")
 
@@ -2967,44 +2928,19 @@ run_one_biomarker <- function(
   
   # -------------------------------------------------------
   # Select correct protein columns
-  #
-  # APOE4, CHIT1 and GDF15 use existing
-  # half-minimum-replaced variables
   # -------------------------------------------------------
+
+
+  bm0 <- paste0(
+    bm_base,
+    "_0"
+  )
   
-  if (
-    use_halfmin && bm_base %in%
-    c(
-      "nulisa_APOE4",
-      "nulisa_CHIT1",
-      "nulisa_GDF15"
-    )
-  ) {
-    
-    bm0 <- paste0(
-      bm_base,
-      "_0_halfmin"
-    )
-    
-    bm2 <- paste0(
-      bm_base,
-      "_2_halfmin"
-    )
-    
-  } else {
-    
-    bm0 <- paste0(
-      bm_base,
-      "_0"
-    )
-    
-    bm2 <- paste0(
-      bm_base,
-      "_2"
-    )
-  }
-  
-  
+  bm2 <- paste0(
+    bm_base,
+    "_2"
+  )
+
   # -------------------------------------------------------
   # Protein-specific complete-case population
   # -------------------------------------------------------
