@@ -1,8 +1,6 @@
 # /////////////////////////////////////////////////////////////////////////////
 # Cognitive responder analysis among high-adherence FINGER participants
-#
-# NPQ VERSION: NULISA values (NPQ, already log2) used as they are (no extra log);
-# APOE4 and core AD biomarkers excluded from all protein models.
+## APOE4 and core AD biomarkers excluded from all protein models.
 # /////////////////////////////////////////////////////////////////////////////
 #
 # Purpose:
@@ -32,15 +30,24 @@
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 1. Packages
+# Packages
 # /////////////////////////////////////////////////////////////////////////////
 
 packages <- c(
   "dplyr",
   "ggplot2",
   "readr", 
-  "tidyr"
+  "tidyr",
+  "purrr",
+  "stringr",
+  "broom",
+  "gtsummary",
+  "ggrepel",
+  "forcats"
+  
 )
+
+
 
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -51,71 +58,23 @@ for (pkg in packages) {
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 2. User and paths
+# User and paths
 # /////////////////////////////////////////////////////////////////////////////
 
-user <- "makrina"   # "makrina" or "ludivine"
 
-if (user == "makrina") {
-  
-  folder_path <- paste0(
-    "/Users/makrina.daniilidou/Library/CloudStorage/",
-    "OneDrive-KarolinskaInstitutet/Documents/",
-    "BBMs FINGER/BBMs nulisa/"
-  )
-  
-  processed_path <- folder_path
-  original_path  <- folder_path
-  output_path    <- paste0(folder_path, "Analysis/NPQ/Responder_analysis/")  # new folder: old results are not overwritten
-  
-} else {
-  
-  folder_path <- "P:/H1_FINGER AD BBM/Nulisa Biomarkers/"
-  
-  processed_path <- paste0(
-    folder_path,
-    "Data/processed/version-2-0/"
-  )
-  
-  original_path <- paste0(
-    folder_path,
-    "Data/original/"
-  )
-  
-  output_path <- paste0(
-    folder_path,
-    "Outputs_R/version-2-0/Responder_analysis/"
-  )
-}
+folder_path <- "../data/"
+original_path <- paste0(folder_path,"original/")
+processed_path <- paste0(folder_path,"processed/")
+output_path <- paste0(folder_path,"outputs_R/Responder_analysis")
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
 }
 
-# Check input files
-for (f in c(paste0(processed_path, "dataset_original.csv"),
-            paste0(original_path, "luovutettavat_85_1_merge.csv"))) {
-  if (!file.exists(f)) stop("Input file not found:\n", f, "\nCheck folder_path.")
-}
-cat("Output path:", output_path, "\n")
-
 
 # /////////////////////////////////////////////////////////////////////////////
-# Biomarker transformation and exclusions (used by all protein models below)
+# Exclusions
 # /////////////////////////////////////////////////////////////////////////////
-# NULISA values are NPQ, which are ALREADY log2-transformed -> used as they are
-#   (winsorize -> z-score where applicable; no further log).
-# Lumipulse pTau217 (concentration) would still be log-transformed, but it is
-#   not used in this script.
-# Internal variable names (bm0_log, bm0_log_z, ...) are kept so output column
-#   names stay the same as before.
-
-needs_log <- function(bm_name) grepl("lumipulse", bm_name)
-
-transform_bm <- function(x, bm_name) {
-  if (needs_log(bm_name)) log(x) else x
-}
-
 # Excluded from ALL protein models (and therefore from FDR):
 # - core AD biomarkers (already excluded from the figures)
 # - NULISA APOE4 (reflects the APOE e4 allele)
@@ -135,7 +94,7 @@ drop_excluded <- function(bm_names) {
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 3. Load main dataset
+# Load main dataset
 # /////////////////////////////////////////////////////////////////////////////
 
 file_path <- paste0(
@@ -150,41 +109,7 @@ df_first <- read_csv(
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 4. Load adherence data
-# /////////////////////////////////////////////////////////////////////////////
-
-df_adh <- read.csv(
-  paste0(
-    original_path,
-    "luovutettavat_85_1_merge.csv"
-  )
-)
-
-df_adh <- df_adh %>%
-  select(
-    ID,
-    multiparti
-  ) %>%
-  distinct() %>%
-  filter(
-    !is.na(ID),
-    !is.na(multiparti)
-  )
-
-
-# /////////////////////////////////////////////////////////////////////////////
-# 5. Merge adherence with main dataset
-# /////////////////////////////////////////////////////////////////////////////
-
-df_all <- df_first %>%
-  left_join(
-    df_adh,
-    by = "ID"
-  )
-
-
-# /////////////////////////////////////////////////////////////////////////////
-# 6. Create adherence groups
+# Create adherence groups
 # /////////////////////////////////////////////////////////////////////////////
 
 df_all <- df_all %>%
@@ -215,7 +140,7 @@ print(
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 7. Select high-adherence participants with complete cognitive data
+# Select high-adherence participants with complete cognitive data
 # /////////////////////////////////////////////////////////////////////////////
 
 df_high_adh <- df_all %>%
@@ -249,7 +174,7 @@ df_high_adh <- df_all %>%
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 8. Overall cognitive-change summary
+# Overall cognitive-change summary
 # /////////////////////////////////////////////////////////////////////////////
 
 change_summary <- df_high_adh %>%
@@ -290,7 +215,7 @@ print(change_summary)
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 9. Responder/non-responder distribution
+# Responder/non-responder distribution
 # /////////////////////////////////////////////////////////////////////////////
 
 responder_summary <- df_high_adh %>%
@@ -397,7 +322,7 @@ print(p_hist)
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 12. Histogram according to responder status
+# Histogram according to responder status
 # /////////////////////////////////////////////////////////////////////////////
 
 p_hist_responder <- ggplot(
@@ -477,7 +402,7 @@ print(p_density)
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 14. Save summary tables
+# Save summary tables
 # /////////////////////////////////////////////////////////////////////////////
 
 write_csv(
@@ -506,7 +431,7 @@ write_csv(
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 15. Save participant-level responder dataset
+# Save participant-level responder dataset
 # /////////////////////////////////////////////////////////////////////////////
 
 write_csv(
@@ -519,7 +444,7 @@ write_csv(
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 16. Save plots
+# Save plots
 # /////////////////////////////////////////////////////////////////////////////
 
 ggsave(
@@ -554,7 +479,7 @@ ggsave(
 
 
 # /////////////////////////////////////////////////////////////////////////////
-# 17. Console summary
+# Console summary
 # /////////////////////////////////////////////////////////////////////////////
 
 cat("\n")
@@ -749,8 +674,6 @@ trajectory_summary
 # Mean 2-year cognitive change by study group
 # /////////////////////////////////////////////////////////////////////////////
 
-library(dplyr)
-library(readr)
 
 # Calculate individual 2-year change
 df_change <- df_all %>%
@@ -874,8 +797,6 @@ write_csv(
 # Observed mean 2-year cognitive change
 # /////////////////////////////////////////////////////////////////////////////
 
-library(dplyr)
-library(readr)
 
 df_cog_change <- df_all %>%
   
@@ -1028,54 +949,6 @@ write_csv(
 # Output:
 #   beta, SE, OR, 95% CI, raw P, BH-FDR
 # =========================================================
-
-
-library(readr)
-library(dplyr)
-library(tidyr)
-library(purrr)
-library(stringr)
-library(broom)
-
-
-# ---------------------------------------------------------
-# 1. Functions
-# ---------------------------------------------------------
-
-winsorize <- function(x, p = 0.01) {
-  
-  q <- quantile(
-    x,
-    probs = c(p, 1 - p),
-    na.rm = TRUE,
-    names = FALSE
-  )
-  
-  x[x < q[1]] <- q[1]
-  x[x > q[2]] <- q[2]
-  
-  x
-}
-
-
-zscore_safe <- function(x) {
-  
-  s <- sd(x, na.rm = TRUE)
-  
-  if (is.na(s) || s == 0) {
-    
-    rep(
-      NA_real_,
-      length(x)
-    )
-    
-  } else {
-    
-    as.numeric(
-      (x - mean(x, na.rm = TRUE)) / s
-    )
-  }
-}
 
 
 # ---------------------------------------------------------
@@ -1377,7 +1250,7 @@ run_responder_biomarker <- function(
     
     mutate(
       bm0_log =
-        transform_bm(bm0_w, bm_base)
+        log_transformation(bm0_w, bm_base)
     )
   
   
@@ -1782,10 +1655,6 @@ write_csv(
 # =========================================================
 
 
-library(dplyr)
-library(tidyr)
-library(readr)
-library(gtsummary)
 
 
 # ---------------------------------------------------------
@@ -2177,10 +2046,6 @@ cat("\nFiles saved successfully.\n")
 # higher baseline protein -> lower odds of cognitive improvement
 # =========================================================
 
-library(dplyr)
-library(ggplot2)
-library(ggrepel)
-library(readr)
 
 
 # ---------------------------------------------------------
@@ -2250,16 +2115,12 @@ volcano_labels <- volcano_resp_df %>%
 # ---------------------------------------------------------
 
 volcano_resp_colors <- c(
-  
   "Associated with non-response, P < 0.05" =
     "#CC6677",
-  
   "Associated with non-response, P < 0.10" =
     "#E7A1B0",
-  
   "Not significant" =
     "grey70",
-  
   "Associated with response, P < 0.10" =
     "#88CCAA",
   
@@ -2423,10 +2284,6 @@ write_csv(
 # higher baseline protein -> lower odds of cognitive improvement
 # =========================================================
 
-library(dplyr)
-library(ggplot2)
-library(forcats)
-library(readr)
 
 
 # ---------------------------------------------------------
@@ -2697,13 +2554,6 @@ write_csv(
 # =========================================================
 
 
-library(readr)
-library(dplyr)
-library(broom)
-library(purrr)
-library(stringr)
-
-
 # ---------------------------------------------------------
 # 1. File paths
 # ---------------------------------------------------------
@@ -2958,19 +2808,12 @@ run_one_biomarker <- function(
     ) %>%
     
     filter(
-      
       !is.na(.data[[bm0]]),
-      
       !is.na(.data[[bm2]]),
-      
       !is.na(responder),
-      
       !is.na(age_bl1),
-      
       !is.na(sex),
-      
       !is.na(bmi_bl2),
-      
       !is.na(campid)
     )
   
@@ -3083,15 +2926,10 @@ run_one_biomarker <- function(
           ),
         
         beta = NA_real_,
-        
         SE = NA_real_,
-        
         CI_lower = NA_real_,
-        
         CI_upper = NA_real_,
-        
         p_value = NA_real_,
-        
         error =
           "Non-positive values after winsorization; log not possible"
       )
@@ -3108,10 +2946,10 @@ run_one_biomarker <- function(
     mutate(
       
       bm0_log =
-        transform_bm(bm0_w, bm_base),
+        log_transformation(bm0_w, bm_base),
       
       bm2_log =
-        transform_bm(bm2_w, bm_base),
+        log_transformation(bm2_w, bm_base),
       
       bm_change =
         bm2_log -
@@ -3149,17 +2987,11 @@ run_one_biomarker <- function(
     lm(
       
       bm_change ~
-        
         bm0_log +
-        
         responder +
-        
         age_bl1 +
-        
         sex +
-        
         bmi_bl2 +
-        
         campid,
       
       data =
@@ -3207,13 +3039,9 @@ run_one_biomarker <- function(
           ),
         
         beta = NA_real_,
-        
         SE = NA_real_,
-        
         CI_lower = NA_real_,
-        
         CI_upper = NA_real_,
-        
         p_value = NA_real_,
         
         error =
@@ -3270,23 +3098,12 @@ run_one_biomarker <- function(
           "Responder"
       ),
     
-    beta =
-      responder_term$estimate[1],
-    
-    SE =
-      responder_term$std.error[1],
-    
-    CI_lower =
-      responder_term$conf.low[1],
-    
-    CI_upper =
-      responder_term$conf.high[1],
-    
-    p_value =
-      responder_term$p.value[1],
-    
-    error =
-      NA_character_
+    beta = responder_term$estimate[1],
+    SE = responder_term$std.error[1],
+    CI_lower = responder_term$conf.low[1],
+    CI_upper = responder_term$conf.high[1],
+    p_value = responder_term$p.value[1],
+    error = NA_character_
   )
 }
 
@@ -3295,17 +3112,7 @@ run_one_biomarker <- function(
 # 11. Run all models
 # ---------------------------------------------------------
 
-results_protein_change_responder <-
-  
-  map_dfr(
-    
-    biomarker_names,
-    
-    run_one_biomarker,
-    
-    data =
-      df_high_adh
-  )
+results_protein_change_responder <-  map_dfr(biomarker_names, run_one_biomarker, data =df_high_adh  )
 
 
 # ---------------------------------------------------------
@@ -3336,15 +3143,11 @@ results_protein_change_responder <-
 # 13. Print all nominal P < 0.05
 # ---------------------------------------------------------
 
-cat(
-  "\nProteins with nominal P < 0.05:\n"
-)
+cat( "\nProteins with nominal P < 0.05:\n")
 
 
 print(
-  
   results_protein_change_responder %>%
-    
     filter(
       p_value < 0.05
     ) %>%
@@ -3370,9 +3173,7 @@ print(
 # 14. Print FDR < 0.05
 # ---------------------------------------------------------
 
-cat(
-  "\nProteins with FDR < 0.05:\n"
-)
+cat(  "\nProteins with FDR < 0.05:\n")
 
 
 print(
