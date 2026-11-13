@@ -90,41 +90,16 @@ for (pkg in packages) {
 # remove unused packages used to load other packages
 gc()
 
-if (group_name != "intervention") {
-  stop("This version only supports group_name = \"intervention\" (adherence code removed).")
-}
 
 # ..............................................................................
 ## Variables definition  -------------------------------------------------------
 # ..............................................................................
-var_group <- if (group_name == "adherence") {
-  "adherence_class"
-} else {
-  "sub_sample_id"
-}
-ref_group <- if (group_name == "adherence") {
-  "adherence_classhigh"
-} else {
-  "sub_sample_id2"
-}
-interv_val_group <- if (group_name == "adherence") {
-  "highadherence"
-} else {
-  "intervention"
-}
- 
-test_group_val <- if (group_name == "adherence") {
-  "High adherence"
-} else {
-  "Intervention"
-}
+var_group <-  "sub_sample_id"
+ref_group <- "sub_sample_id2"
+interv_val_group <- "intervention"
+test_group_val <-"Intervention"
+ref_control = "3"
 
-
-if (group_name == 'adherence'){
-  ref_control = 'control'
-}else{
-  ref_control = "3"
-}
 
 list_colors <- c(
   "male" = color_male,
@@ -338,14 +313,9 @@ run_one_biomarker <- function(bm_base, data, var_group) {
   
   
   # Reference groups
-  if (var_group == "adherence"){
-    if ("control" %in% levels(df_long$adherence_class )) {
-      df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-    }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
-        df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-      }
-    }
+  if ("3" %in% levels(df_long$sub_sample_id)) {
+    df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
+  }
 
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
@@ -715,14 +685,9 @@ run_one_model <- function(bm_base, data, var_group) {
     ) %>%
     filter(!is.na(ztotal_composite))
   
-  if (var_group == "adherence"){
-    if ("control" %in% levels(df_long$adherence_class )) {
-      df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-    }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
-        df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-      }
-    }
+  if ("3" %in% levels(df_long$sub_sample_id)) {
+    df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
+  }
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
   }
@@ -842,7 +807,7 @@ cat("Saved: all_biomarker_diagnostics_6_per_page_imputed_zeros_bmi_adj.pdf\n")
 # Panel B:
 #   Exact group-specific slopes:
 #   Control = biomarker x time
-#   intervention/highadherence = control slope + group x biomarker x time
+#   intervention = control slope + group x biomarker x time
 #
 # Main figure:
 #   biomarkers with raw 3-way p < 0.05
@@ -1068,17 +1033,10 @@ if (length(missing_3way_cols) > 0) {
   text_strong_interv = paste0("Stronger biomarker association in ",test_group_val, " group") 
   
   
-  if (group_name == 'intervention'){
-    color_val = c(
-      "Stronger biomarker association in control" = color_control,
-      "Stronger biomarker association in Intervention group"= color_interv
-    )
-  }else{
-    color_val = c(
-      "Stronger biomarker association in control" = color_control,
-      "Stronger biomarker association in High adherence group"= color_interv
-    )
-  }
+  color_val = c(
+    "Stronger biomarker association in control" = color_control,
+    "Stronger biomarker association in Intervention group"= color_interv
+  )
   
   p_A_3way <- ggplot(
     plot_3way_wide,
@@ -1181,18 +1139,11 @@ if (length(missing_3way_cols) > 0) {
     )
   
 
-  
-  if (group_name == 'intervention'){
-    color_val = c(
-      "Control" = color_control,
-      "Intervention" = color_interv
-    )
-  }else{
-    color_val = c(
-      "Control" = color_control,
-      "High adherence" = color_interv
-    )
-  }
+
+  color_val = c(
+    "Control" = color_control,
+    "Intervention" = color_interv
+  )
   
   p_B_3way <- ggplot(
     plot_3way_long,
@@ -1553,12 +1504,12 @@ write_csv(
 # Mixed-effects models for all NULISA biomarkers
 # + lumipulse_ptau217
 # Outcome: biomarker over time
-# Predictor of interest: adherence group
+# Predictor of interest: intervention group
 #
 # Specifications:
 # - random intercept : (1 | ID)
 # - campid reference = Helsinki (101)
-# - adherence_class reference = control 
+# - group reference = control 
 # - sex reference = man (1)
 # - winsorization at 1% and 99%, baseline and 2-year separately
 # - log transformation AFTER winsorization
@@ -1700,14 +1651,11 @@ run_one_biomarker <- function(bm_base, data) {
     filter(!is.na(biomarker_value))
   
   # Reference levels
-  if (var_group == "adherence"){
-    if ("control" %in% levels(df_long$adherence_class )) {
-      df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-    }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
-        df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-      }
-    }
+
+  if ("3" %in% levels(df_long$sub_sample_id)) {
+    df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
+  }
+    
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
   }
@@ -1838,14 +1786,14 @@ print(
 
 # Linear models for all NULISA biomarkers + lumipulse_ptau217
 # Outcome: biomarker change from baseline to 2 years
-# Predictor of interest: adhesion group
+# Predictor of interest: interv. group
 #
 # Specifications:
 # - outcome = biomarker_2y_log - biomarker_0_log
 # - adjust for baseline biomarker level
 # - adjust for age_bl1, sex, educ_years_BL1, bmi_bl2, campid
 # - campid reference = Helsinki (101)
-# - adherence_class reference = control
+# - group reference = control
 # - sex reference = man (1)
 # - winsorization at 1% and 99%, baseline and 2-year separately
 # - log transformation AFTER winsorization
@@ -2362,11 +2310,11 @@ write_csv(
 
 # /////////////////////////////////////////////////////////////////////////////
 # /////////////////////////////////////////////////////////////////////////////
-## Adjusted biomarker change by adherence class for all biomarkers ------------
+## Adjusted biomarker change by intervention class for all biomarkers ------------
 # /////////////////////////////////////////////////////////////////////////////
 # /////////////////////////////////////////////////////////////////////////////
 
-# Adjusted biomarker change by adherence class for all biomarkers
+# Adjusted biomarker change by intervention class for all biomarkers
 # Outcome: biomarker change from baseline to 2 years
 # Model: change ~ baseline biomarker + group + age + sex + education + site +BMI
 #
@@ -2499,19 +2447,10 @@ run_one_biomarker <- function(bm_base, data) {
       error = model$message
     ))
   }
-  if (group_name == "adherence"){
-    
   emm <- tryCatch(
-    emmeans(model, ~ adherence_class),
+    emmeans(model, ~ sub_sample_id),
     error = function(e) e
   )
-  }else{
-    
-    emm <- tryCatch(
-      emmeans(model, ~ sub_sample_id),
-      error = function(e) e
-    )
-  }
   
   if (inherits(emm, "error")) {
     return(tibble(
@@ -3206,7 +3145,7 @@ for (apoe_grp in c(0,1)){
 #
 # Specifications:
 # - random intercept + random slope for year: (1 + year | ID)
-# - control reference = adherence_class control
+# - control reference = intervention control
 # - sex reference = man 1
 # - campid reference = Helsinki 101
 # - winsorization at 1% and 99%
@@ -3342,14 +3281,10 @@ run_one_biomarker_stratum <- function(bm_base, data, apoe_level) {
     ) %>%
     filter(!is.na(ztotal_composite))
   
-  if (var_group == "adherence"){
-    if ("control" %in% levels(df_long$adherence_class )) {
-      df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-    }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
-        df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-      }
-    }
+  if ("3" %in% levels(df_long$sub_sample_id)) {
+    df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
+  }
+    
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
   }
@@ -3722,11 +3657,11 @@ write_csv(
 # Outcome: Lumipulse pTau217 over time (NOT z-scaled)
 #
 # Purpose:
-# Test whether baseline biomarkers modify the adherence
+# Test whether baseline biomarkers modify the intervention
 # effect on longitudinal Lumipulse pTau217.
 #
 # Main term of interest:
-#   year × biomarker × adherence group
+#   year × biomarker ×  group
 #
 # Outcome:
 #   lumipulse_ptau217 measured at baseline and 2 years
@@ -3881,14 +3816,10 @@ run_one_biomarker <- function(bm_base, data) {
       creat_z   = as.numeric(scale(fs_krea_BL1))
     )
   
-  if (var_group == "adherence"){
-      if ("control" %in% levels(df_long$adherence_class )) {
-    df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-  }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
+  if ("3" %in% levels(df_long$sub_sample_id)) {
     df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
   }
-  }
+  
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
   }
@@ -4252,7 +4183,7 @@ write_csv(plot_3way, paste0(output_path,"Longitudinal/lumipulse_ptau217_outcome_
 # Specifications:
 # - random intercept + random slope for year: (1 + year | ID)
 # - campid reference = Helsinki (101)
-# - adherence_class reference = control (0)
+# - group reference = control (0)
 # - sex reference = man (1)
 # - winsorization at 1% and 99%, baseline and 2-year separately
 # - log transformation AFTER winsorization
@@ -4383,13 +4314,9 @@ run_one_biomarker <- function(bm_base, data) {
     filter(!is.na(ztotal_composite))
   
   # Reference groups
-  if (var_group == "adherence"){
-      if ("control" %in% levels(df_long$adherence_class )) {
-    df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-  }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
+
+  if ("3" %in% levels(df_long$sub_sample_id)) {
     df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-  }
   }
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
@@ -5154,17 +5081,10 @@ if (length(missing_4way_cols) > 0) {
     plot_4way_long$APOE4,
     levels = c("APOE4 non-carrier", "APOE4 carrier")
   )
-  if (group_name == 'intervention'){
-    color_val = c(
-      "Control" = color_control,
-      "Intervention" = color_interv
-    )
-  }else{
-    color_val = c(
-      "Control" = color_control,
-      "High adherence" = color_interv
-    )
-  }
+  color_val = c(
+    "Control" = color_control,
+    "Intervention" = color_interv
+  )
   # Create a new variable to define the order of groups
   plot_4way_long$group_order <- factor(
     paste(plot_4way_long$APOE4, plot_4way_long$TrialGroup, sep = "_"),
@@ -5450,7 +5370,7 @@ write_csv(
 #
 # Specifications:
 # - random intercept + random slope for year: (1 + year | ID)
-# - control reference = adherence_class control
+# - control reference =  control
 # - apoe reference = non carrier
 # - campid reference = Helsinki 101
 # - winsorization at 1% and 99%
@@ -5583,14 +5503,10 @@ run_one_biomarker_stratum <- function(bm_base, data, sex_level) {
     ) %>%
     filter(!is.na(ztotal_composite))
   
-  if (var_group == "adherence"){
-    if ("control" %in% levels(df_long$adherence_class )) {
-      df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-    }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
-        df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-      }
-    }
+  if ("3" %in% levels(df_long$sub_sample_id)) {
+    df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
+  }
+    
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
   }
@@ -5973,7 +5889,7 @@ write_csv(
 # Specifications:
 # - random intercept + random slope for year: (1 + year | ID)
 # - campid reference = Helsinki (101)
-# - adherence_class reference = control (0)
+# - group reference = control (0)
 # - apoe reference = non carrier
 # - winsorization at 1% and 99%, baseline and 2-year separately
 # - log transformation AFTER winsorization
@@ -6104,14 +6020,9 @@ run_one_biomarker <- function(bm_base, data) {
     filter(!is.na(ztotal_composite))
   
   # Reference groups
-  if (var_group == "adherence"){
-    if ("control" %in% levels(df_long$adherence_class )) {
-      df_long$adherence_class <- relevel(df_long$adherence_class, ref = "control")
-    }  }else{
-      if ("3" %in% levels(df_long$sub_sample_id)) {
-        df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
-      }
-    }
+  if ("3" %in% levels(df_long$sub_sample_id)) {
+    df_long$sub_sample_id <- relevel(df_long$sub_sample_id, ref = "3")
+  }
   if ("1" %in% levels(df_long$sex)) {
     df_long$sex <- relevel(df_long$sex, ref = "1")
   }
@@ -6875,17 +6786,11 @@ if (length(missing_4way_cols) > 0) {
     plot_4way_long$sex,
     levels = c("Male", "Female")
   )
-  if (group_name == 'intervention'){
-    color_val = c(
-      "Control" = color_control,
-      "Intervention" = color_interv
-    )
-  }else{
-    color_val = c(
-      "Control" = color_control,
-      "High adherence" = color_interv
-    )
-  }
+  color_val = c(
+    "Control" = color_control,
+    "Intervention" = color_interv
+  )
+  
   # Create a new variable to define the order of groups
   plot_4way_long$group_order <- factor(
     paste(plot_4way_long$sex, plot_4way_long$TrialGroup, sep = "_"),

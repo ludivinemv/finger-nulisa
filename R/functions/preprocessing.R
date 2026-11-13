@@ -65,17 +65,6 @@ log_transformation <- function(x, bm_name) {
   if (needs_log(bm_name)) log(x) else x
 }
 
-# replace zeros with half minimum positive
-replace_zero_halfmin <- function(x) {
-  
-  min_pos <- min(x[x > 0], na.rm = TRUE)
-  
-  x_new <- x
-  x_new[x_new == 0] <- min_pos / 2
-  
-  x_new
-}
-
 # ..............................................................................
 ## Biomarkers exclusion  ----------------------------------------------------
 # ..............................................................................
