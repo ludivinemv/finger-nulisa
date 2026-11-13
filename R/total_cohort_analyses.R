@@ -19,7 +19,6 @@ color_noncarrier= "#E69F00"
 color_control="#4D4D4D"
 color_interv = "#CC79A7"
 
-use_halfmin <- FALSE
 
 
 # /////////////////////////////////////////////////////////////////////////////
@@ -46,7 +45,6 @@ packages <- c("dplyr",
               "emmeans",
               "remotes",
               "colorspace",
-              "colorblindr",
               "svglite")
 
 
@@ -55,11 +53,7 @@ packages <- c("dplyr",
 # Loop to install packages
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) { # Install only if the package is not already installed
-    if (pkg == "colorblindr"){
-      remotes::install_github("clauswilke/colorblindr")
-    }else{
-      install.packages(pkg)
-    }
+    install.packages(pkg)
   }
 }
 
@@ -112,8 +106,6 @@ data_file <- paste0(original_path, "luovutettavat_85_1.csv")
 if (!file.exists(data_file)) {
   stop("Input file not found:\n", data_file, "\nCheck folder_path / original_path.")
 }
-cat("Input data :", data_file, "\n")
-cat("Output path:", output_path, "\n")
 
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 for (fold in c("Longitudinal","cross-sectional","Stratified")){
@@ -133,51 +125,6 @@ source("functions/plots_and_tables")
 source("functions/utilities")
 source("functions/preprocessing")
 source("functions/statistics")
-
-
-# /////////////////////////////////////////////////////////////////////////////
-# /////////////////////////////////////////////////////////////////////////////
-## Prepare data -------------------------------------------------------------------
-# /////////////////////////////////////////////////////////////////////////////
-# /////////////////////////////////////////////////////////////////////////////
-
-# .............................................................................
-# File path
-# .............................................................................
-file_path <- paste0(original_path,"luovutettavat_85_1.csv")
-
-# .............................................................................
-# Load data
-# .............................................................................
-df_all <- read_csv(file_path, show_col_types = FALSE)
-
-# .............................................................................
-# Apply to variables
-# .............................................................................
-df_all <- df_all %>%
-  mutate(
-    nulisa_APOE4_0_halfmin = replace_zero_halfmin(nulisa_APOE4_0),
-    nulisa_APOE4_2_halfmin = replace_zero_halfmin(nulisa_APOE4_2),
-    
-    nulisa_CHIT1_0_halfmin = replace_zero_halfmin(nulisa_CHIT1_0),
-    nulisa_CHIT1_2_halfmin = replace_zero_halfmin(nulisa_CHIT1_2),
-    
-    nulisa_GDF15_0_halfmin = replace_zero_halfmin(nulisa_GDF15_0),
-    nulisa_GDF15_2_halfmin = replace_zero_halfmin(nulisa_GDF15_2)
-  )
-
-# .............................................................................
-# Save updated dataset
-# .............................................................................
-write_csv(
-  df_all,
-  paste0(processed_path,"dataset_with_halfmin_zero_replacement.csv")
-)
-
-write_csv(
-  summary_table,
-  paste0(output_path,"halfmin_replacement_values.csv")
-)
 
 
 
@@ -220,7 +167,6 @@ write_csv(
 # - winsorization at 1% and 99%
 # - log transformation after winsorization
 # - z-scaling after log transformation
-# - APOE4, CHIT1, and GDF15 use half-minimum zero-replaced columns
 # - remove patients without:
 #     baseline biomarker
 #     baseline cognition
@@ -234,7 +180,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_with_halfmin_zero_replacement.csv")
+file_path <- paste0(processed_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -280,11 +226,7 @@ base_vars <- c(
 # .............................................................................
 run_one_biomarker <- function(bm_base, data) {
   
-  if (use_halfmin && bm_base %in% c("nulisa_APOE4", "nulisa_CHIT1", "nulisa_GDF15")) {
-    bm0 <- paste0(bm_base, "_0_halfmin")
-  } else {
-    bm0 <- paste0(bm_base, "_0")
-  }
+  bm0 <- paste0(bm_base, "_0")
   
   cat("Running:", bm_base, "\n")
   
@@ -664,7 +606,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_with_halfmin_zero_replacement.csv")
+file_path <- paste0(processed_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -694,12 +636,7 @@ biomarkers <- drop_excluded(biomarkers)
 # .............................................................................
 run_cross <- function(bm, df) {
   
-  # Use halfmin-replaced columns for biomarkers with zeros
-  if (use_halfmin && bm %in% c("nulisa_APOE4_0", "nulisa_CHIT1_0", "nulisa_GDF15_0")) {
-    bm_use <- paste0(bm, "_halfmin")
-  } else {
-    bm_use <- bm
-  }
+  bm_use <- bm
   
   dat <- df %>%
     select(
@@ -1055,7 +992,6 @@ plot_volcano(
 # - winsorization at 1% and 99%
 # - log transformation after winsorization
 # - z-scaling after log transformation
-# - APOE4, CHIT1, and GDF15 use half-minimum zero-replaced columns
 # - remove patients without:
 #     baseline biomarker
 #     baseline cognition
@@ -1069,7 +1005,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_with_halfmin_zero_replacement.csv")
+file_path <- paste0(processed_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -1115,11 +1051,7 @@ base_vars <- c(
 # .............................................................................
 run_one_biomarker <- function(bm_base, data) {
   
-  if (use_halfmin && bm_base %in% c("nulisa_APOE4", "nulisa_CHIT1", "nulisa_GDF15")) {
-    bm0 <- paste0(bm_base, "_0_halfmin")
-  } else {
-    bm0 <- paste0(bm_base, "_0")
-  }
+  bm0 <- paste0(bm_base, "_0")
   
   cat("Running:", bm_base, "\n")
   
@@ -1425,7 +1357,7 @@ if (option_top == 'bm_year_adjusted'){
   top25_path <- paste0(output_path,"/",folder,"/top25_",option_top,"_pval_",pval_top,"_excluding_core.csv")
 }
 
-data_path <- paste0(processed_path,"dataset_with_halfmin_zero_replacement.csv")  # was the adherence dataset
+data_path <- paste0(processed_path,"dataset_original.csv")  # was the adherence dataset
 
 # .............................................................................
 # Core proteins
