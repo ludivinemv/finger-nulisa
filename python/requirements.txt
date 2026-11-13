@@ -1,0 +1,10 @@
+# Python >= 3.9 (str.removeprefix / removesuffix)
+numpy>=1.23
+pandas>=1.5
+scipy>=1.9
+scikit-learn>=1.1
+matplotlib>=3.6      # colormaps[...].resampled()
+seaborn>=0.12
+statsmodels>=0.13
+pyreadstat>=1.2
+tqdm>=4.64
