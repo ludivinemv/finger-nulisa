@@ -2,10 +2,10 @@
 # Purpose: Elastic Net
 
 # Date creation: 2025-10-18
-# Author: Ludivine Morvan
+# Author: ludivinemv
 
 # Input data: 
-#       luovutettavat_85_1.csv
+#       dataset_original.csv
 
 #Output data:
 
@@ -33,30 +33,16 @@ from sklearn.model_selection import KFold, RandomizedSearchCV
 from scipy.stats import loguniform, uniform
 
 
-import warnings
-warnings.filterwarnings('ignore')
-
 #! PRIVATE IMPORTS
-sys.path.append('P:/H1_FINGER AD BBM/')
-sys.path.append('P:/H1_FINGER AD BBM/Nulisa Biomarkers/Scripts/')
-
-
-
 from utils.log_functions import setup_logger
 from utils.data_transform import windsorize_column, clean_open_file
 
 
 #! GLOBAL VARIABLES
-from projectspecific.config import LOG_PATH, DATA_PROCESSED_PATH
+from projectspecific.config import LOG_PATH, DATA_PROCESSED_PATH, LONG_PATH, DATA_PROCESSED_PATH
 
 VERSION = "2-0"
 GROUP_CLASS = "intervention"
-
-
-
-FOLDER_PATH = Path("P:/H1_FINGER AD BBM/Nulisa Biomarkers")
-LONG_PATH = Path(f"{FOLDER_PATH}/Outputs_R/version-{VERSION}/{GROUP_CLASS}/Longitudinal")
-DATA_PATH =  Path(f"{FOLDER_PATH}/Data/processed/version-{VERSION}")
 
 
 #! FUNCTIONS
@@ -71,33 +57,13 @@ def get_data():
         meta: meta data
     """
     # open meta and data files
-    df = clean_open_file(path=DATA_PATH/'dataset_with_halfmin_zero_replacement_adherence.csv', output_type='dataframe')
+    df = clean_open_file(path=DATA_PROCESSED_PATH/'dataset_original.csv', output_type='dataframe')
     meta = clean_open_file(path=DATA_PROCESSED_PATH/'description'/'columns_description.csv', output_type='dataframe')
     
     # Get the string of a dictionary and convert it to a dictionary
     label_map = ast.literal_eval(meta[meta['column']=='sub_sample_id']['values'].values[0])
     # get Intervention and Control instead of 2 and 3 in df['group'] 
     df['group'] = df['sub_sample_id'].replace(label_map)
-
-    # standardize columns names
-    dict_yrs = {r'_24kk$':'_2y',r'_12kk$': '_1y',r'_Scr$' : '_0y', r'_bl1$' : '_0y', 
-              r'_BL2$' : '_0y', r'_BL1$' : '_0y', r'_bl2$' : '_0y', r'_0$' : '_0y',
-                r'_1$' : '_1y',r'_2$' : '_2y'   }
-
-    for key, value in dict_yrs.items():
-        df.columns = df.columns.str.replace(key, value, regex=True)
-        meta['column'] = meta['column'].str.replace(key, value, regex=True)
-
-    dict_multilifestyle= {
-        'multilifestyle0': 'multilifestyle_0y',
-        'multilifestyle1': 'multilifestyle_1y',
-        'multilifestyle2': 'multilifestyle_2y',
-        }
-    
-    df.rename(columns=dict_multilifestyle, inplace=True)
-    for key,value in dict_multilifestyle.items():
-        meta['column'] = meta['column'].str.replace(key, value, regex=True)
-    
     
     # standardize cognition columns names
     col_cognitive = [item for item in df.columns if item.lower().startswith('z')]
