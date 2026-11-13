@@ -6422,25 +6422,6 @@ all_proteins <- c(filtered_proteins, core_proteins)
 
 df_corr <- df[, intersect(all_proteins, names(df))]
 
-
-cor_pmat <- function(df) {
-  vars <- colnames(df)
-  p_mat <- matrix(NA, ncol = length(vars), nrow = length(vars))
-  colnames(p_mat) <- vars
-  rownames(p_mat) <- vars
-  
-  for (i in 1:length(vars)) {
-    for (j in 1:length(vars)) {
-      test <- suppressWarnings(
-        cor.test(df[[i]], df[[j]], method = "spearman", exact = FALSE)
-      )
-      p_mat[i, j] <- test$p.value
-    }
-  }
-  
-  p_mat
-}
-
 cor_mat <- cor(df_corr, method = "spearman", use = "pairwise.complete.obs")
 p_mat   <- cor_pmat(df_corr)
 
@@ -6464,8 +6445,6 @@ p_long <- as.data.frame(p_cross) %>%
 
 cor_long <- dplyr::left_join(cor_long, p_long,
                              by = c("FilteredProtein", "CoreProtein"))
-
-
 
 
 cor_long <- cor_long %>%
