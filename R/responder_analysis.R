@@ -63,7 +63,6 @@ for (pkg in packages) {
 
 
 folder_path <- "../data/"
-original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
 output_path <- paste0(folder_path,"outputs_R/Responder_analysis")
 
@@ -99,7 +98,7 @@ drop_excluded <- function(bm_names) {
 
 file_path <- paste0(
   processed_path,
-  "dataset_original.csv"
+  "dataset_original_clean.csv"
 )
 
 df_first <- read_csv(

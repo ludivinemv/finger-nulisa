@@ -201,6 +201,15 @@ def get_data():
     # get Intervention and Control instead of 2 and 3 in df['group']
     df['group'] = df['sub_sample_id'].replace(label_map)
 
+    # standardize columns names
+    dict_yrs = {r'_24kk$':'_2y',r'_12kk$': '_1y',r'_Scr$' : '_0y', r'_bl1$' : '_0y', 
+              r'_BL2$' : '_0y', r'_BL1$' : '_0y', r'_bl2$' : '_0y', r'_0$' : '_0y',
+                r'_1$' : '_1y',r'_2$' : '_2y'   }
+    
+    for key, value in dict_yrs.items():
+        df.columns = df.columns.str.replace(key, value, regex=True)
+        meta['column'] = meta['column'].str.replace(key, value, regex=True)
+
     # standardize cognition columns names
     col_cognitive = [
         item for item in df.columns if item.lower().startswith('z')
