@@ -1,7 +1,7 @@
 # Plasma proteomics reveals signatures of cognitive aging and response to the FINGER multidomain lifestyle intervention 
 by Makrina Daniilidou Andrea L. Benedet, Ari Solomon1, Anna Rosenberg, Ludivine Morvan, Jenni Lehtisalo, Francesca Mangialasche, Esko Levälahti, Burak Arslan, Markku Peltonen, Ilaria Pola, Kübra Tan, Tiia Ngandu, Henrik Zetterberg*, Miia Kivipelto*, Anna Matton*
 
-This repository provides the python and R code from the submitted paper --> [Preprint link]
+This repository provides the python and R code from the submitted paper --> [Link preprint](https://www.medrxiv.org/content/10.64898/2026.11.13.26367619v1)
 
 
 ## Abstract
