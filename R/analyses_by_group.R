@@ -126,13 +126,14 @@ EXCLUDE_FROM_MODELS <- c(
 ## Path definition -------------------------------------------------------------
 # ..............................................................................
 
-folder_path <- "../data/"
+folder_path <- "../synthetic_data/"
+original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0(folder_path,"outputs_R/",group_name,"/")
+output_path <- paste0("outputs_R/",group_name,"/")
 
 
 # Check that the input data file exists before running anything
-data_file <- paste0(processed_path, "dataset_original_clean.csv")
+data_file <- paste0(original_path, "dataset_original_clean.csv")
 if (!file.exists(data_file)) {
   stop("Input file not found:\n", data_file,
        "\nCheck folder_path / processed_path (or run the total-cohort script first, which creates it).")
@@ -193,7 +194,7 @@ source("functions/statistics")
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -547,7 +548,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -1490,7 +1491,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -1990,7 +1991,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 
 # .............................................................................
 # Load data
@@ -2219,7 +2220,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 
 # .............................................................................
 # Load data
@@ -3382,7 +3383,7 @@ write_csv(
 # File path
 # .............................................................................
 
-file_path <- paste0(processed_path,"dataset_original_clean.csv.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -3677,7 +3678,7 @@ write_csv(
 # File path
 # .............................................................................
 
-file_path <- paste0(processed_path,"dataset_original_clean.csv.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 
 # .............................................................................
 # Load data

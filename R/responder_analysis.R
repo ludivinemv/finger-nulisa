@@ -61,10 +61,10 @@ for (pkg in packages) {
 # User and paths
 # /////////////////////////////////////////////////////////////////////////////
 
-
-folder_path <- "../data/"
+folder_path <- "../synthetic_data/"
+original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0(folder_path,"outputs_R/Responder_analysis")
+output_path <- paste0("outputs_R/Responder_analysis/")
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
@@ -97,7 +97,7 @@ drop_excluded <- function(bm_names) {
 # /////////////////////////////////////////////////////////////////////////////
 
 file_path <- paste0(
-  processed_path,
+  original_path,
   "dataset_original_clean.csv"
 )
 

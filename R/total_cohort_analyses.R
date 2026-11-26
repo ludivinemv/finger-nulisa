@@ -95,10 +95,11 @@ EXCLUDE_FROM_MODELS <- c(
 # ..............................................................................
 ## Path definition -------------------------------------------------------------
 # ..............................................................................
-folder_path <- "../data/"
+folder_path <- "../synthetic_data/"
+original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0(folder_path,"outputs_R/total_cohort/")
-  
+output_path <- paste0("outputs_R/total_cohort/")
+
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 for (fold in c("Longitudinal","cross-sectional","Stratified")){
   if (!dir.exists(paste0(output_path,"/",fold))) {dir.create(paste0(output_path,"/",fold))}# Create the folder if it does not exist
@@ -175,7 +176,7 @@ source("functions/statistics")
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 
 # .............................................................................
 # Load data
@@ -573,7 +574,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 
 # .............................................................................
 # Load data
@@ -863,7 +864,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original_clean.csv")
 
 
 # .............................................................................
