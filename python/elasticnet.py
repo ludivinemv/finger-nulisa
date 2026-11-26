@@ -36,9 +36,9 @@ from utils.data_transform import windsorize_column, clean_open_file
 
 # ! GLOBAL VARIABLES
 from projectspecific.config import (
-    DATA_PROCESSED_PATH,
     LOG_PATH,
     LONG_PATH,
+    DATA_ORIGINAL_PATH,
 )
 
 VERSION = "2-0"
@@ -186,18 +186,13 @@ def get_data():
     """
     # open meta and data files
     df = clean_open_file(
-        path=DATA_PROCESSED_PATH / 'dataset_original.csv',
-        output_type='dataframe',
-    )
-    meta = clean_open_file(
-        path=DATA_PROCESSED_PATH / 'description' / 'columns_description.csv',
+        path=DATA_ORIGINAL_PATH / 'dataset_original.csv',
         output_type='dataframe',
     )
 
     # Get the string of a dictionary and convert it to a dictionary
-    label_map = ast.literal_eval(
-        meta[meta['column'] == 'sub_sample_id']['values'].values[0]
-    )
+    label_map = {2: 'Intervention', 3: 'Control'}
+    
     # get Intervention and Control instead of 2 and 3 in df['group']
     df['group'] = df['sub_sample_id'].replace(label_map)
 
@@ -227,21 +222,6 @@ def get_data():
         0,
     )
 
-    for c in ["nulisa_APOE4", "nulisa_CHIT1", "nulisa_GDF15"]:
-        # Remove {c}_0y and {c}_2y
-        df.drop(columns=[f"{c}_0y", f"{c}_2y"], inplace=True, errors='ignore')
-
-        # Rename {c}_0_halfmin to {c}_0y and {c}_2_halfmin to {c}_2y
-        df.rename(
-            columns={
-                f"{c}_0_halfmin": f"{c}_0y",
-                f"{c}_2_halfmin": f"{c}_2y",
-            },
-            inplace=True,
-            errors='ignore',
-        )
-
-    df['diabetes_0y'] = np.where(df['diabetes_ever_no_0y'] == 1, 0, 1)
     df = df[df['mITT'] == 1]
 
     # ! Lists ##########################################################
@@ -564,6 +544,8 @@ def get_graphs(
     custom_colors = _get_custom_colors()
     output_dir = path_options_output_model / group
 
+    os.makedirs(output_dir,exist_ok=True)
+
     # --- Open outputs ---
     with open(
         output_dir / f'elasticnet_all_folds_outputs_{group}.pkl', 'rb'
@@ -823,6 +805,8 @@ def apply_elasticnet(
     """
     custom_colors = _get_custom_colors()
     output_dir = path_options_output_model / group
+
+    os.makedirs(output_dir,exist_ok=True)
 
     # --- Initialize outputs ---
     fold_outputs = {}
@@ -1296,9 +1280,9 @@ if __name__ == "__main__":
     centered = False
     windsor_ratio = 1
 
-    rerun_split = False
-    rerun_model = False
-    rerun_opti = False
+    rerun_split = True
+    rerun_model = True
+    rerun_opti = True
 
     cross_val = True
     n_folds = 4
@@ -1314,14 +1298,10 @@ if __name__ == "__main__":
      col_nulisa, col_nulisa_baseline) = get_data()
     df.reset_index(drop=True, inplace=True)
 
-    name_folder = 'mitt_windsor_halmin'
-    if centered:
-        name_folder += '_centered'
-
     logger = setup_logger(
         name='ElasticNet',
         log_dir=LOG_PATH,
-        subfolder_name='machine learning R version',
+        subfolder_name='machine learning',
         log_file=f'elasticnet_{version_model}.log',
         level=logging.INFO,
         mode='w',
@@ -1335,9 +1315,9 @@ if __name__ == "__main__":
         f"rerun_opti: {rerun_opti}, cognition: {cognition} "
     )
 
-    path_options_output_data = LONG_PATH / 'ElasticNet' / name_folder / 'data'
+    path_options_output_data = LONG_PATH / 'ElasticNet'  / 'data'
     path_options_output_model = (
-        LONG_PATH / 'ElasticNet' / name_folder / version_model
+        LONG_PATH / 'ElasticNet'  / version_model
     )
 
     os.makedirs(path_options_output_data, exist_ok=True)
