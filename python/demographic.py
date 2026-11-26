@@ -17,7 +17,6 @@
 import os
 import pandas as pd
 import numpy as np  
-import ast
 
 #! PRIVATE IMPORTS
 from projectspecific.project_functions import get_data
@@ -164,7 +163,6 @@ if __name__ == "__main__":
 
     #! Sex
     dict_sex = {1: 'Male', 2: 'Female'}
-    dict_sex = ast.literal_eval(dict_sex)
 
     df_sex = df.copy()
     df_sex['sex'] = df_sex['sex'].replace(dict_sex)

@@ -17,14 +17,13 @@ import os
 from tqdm import tqdm
 
 #! PRIVATE IMPORTS
-from projectspecific.project_functions import get_data, get_subset
+from projectspecific.project_functions import get_data
 from utils.data_transform import windsorize_column
 
 from utils.analyses_functions import get_lineplot_bygroup
 
 #! GLOBAL VARIABLES
 from projectspecific.config import LONG_PATH, COLORINTER, COLORCONTROL
-from projectspecific.features_lists import *
 
 #! FUNCTIONS
 
@@ -43,7 +42,7 @@ if __name__ == "__main__":
     #! #################################################################
     df_all = get_data()
     
-    df_mitt = df_all[df_all['mITT']==1] 
+    df = df_all[df_all['mITT']==1] 
     
     #! Lists ##########################################################
     col_id = ['ID', 'group']
@@ -58,24 +57,10 @@ if __name__ == "__main__":
     col_cofacteurs_base = ['age_0y','sex','campid','educ_years_0y']
 
     #! Windsorize data
-    df_windsor_all= df_all.copy()
     for col in tqdm(col_nulisa):
-        df_windsor_all[col] = windsorize_column(df_all[col], windsor_ratio/100, windsor_ratio/100)
+        df[col] = windsorize_column(df[col], windsor_ratio/100, windsor_ratio/100)
 
-    df_windsor_mitt = df_mitt.copy()
-    for col in tqdm(col_nulisa):
-        df_windsor_mitt[col] = windsorize_column(df_mitt[col], windsor_ratio/100, windsor_ratio/100)
-
-    dict_df = {
-        'df_all': df_all,
-        'df_mitt': df_mitt,
-        'df_windsor_all': df_windsor_all,
-        'df_windsor_mitt': df_windsor_mitt,
-    }
-
-    print(f'********** {subset}, windsorization: {windsor}')
-    df = get_subset(dict_df, subset, windsor)
-    
+    print(f'********** {subset}, windsorization: {windsor}')    
     path_options = LONG_PATH/'bbm'/f'{subset}_windsor_{windsor}'
 
     if centered:
@@ -85,7 +70,6 @@ if __name__ == "__main__":
 
 
     #! Standardisation
-
     for bbm in bbm_list:
         mean_0y = df[f'{bbm}_0y'].mean()
         sd_0y = df[f'{bbm}_0y'].std()
@@ -94,8 +78,6 @@ if __name__ == "__main__":
             df[f'{bbm}_{year}y_z'] = (
                 df[f'{bbm}_{year}y'] - mean_0y
             ) / sd_0y
-
-
 
 
     #! #################################################################
