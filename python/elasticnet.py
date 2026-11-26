@@ -208,7 +208,7 @@ def get_data():
     
     for key, value in dict_yrs.items():
         df.columns = df.columns.str.replace(key, value, regex=True)
-        meta['column'] = meta['column'].str.replace(key, value, regex=True)
+
 
     # standardize cognition columns names
     col_cognitive = [
@@ -226,39 +226,6 @@ def get_data():
         1,
         0,
     )
-
-    meta = pd.concat(
-        [
-            meta,
-            pd.DataFrame(
-                [
-                    ['mITT',
-                     'Individuals from the modified intention-to-treat '
-                     'group',
-                     np.nan, 'int64', 0, 0, 0, 0],
-                    ['age_1y', 'Age at 1 year', 'years', 'float64',
-                     1, 0, 1, 0],
-                    ['age_2y', 'Age at 2 years', 'years', 'float64',
-                     1, 0, 0, 1],
-                    ['group', 'Intervention group', np.nan, np.nan,
-                     0, 0, 0, 0],
-                ],
-                columns=meta.columns,
-            ),
-        ],
-        ignore_index=True,
-    )
-
-    nulisa_col = meta[
-        meta['column'].str.startswith('nulisa_')
-    ]['column'].tolist()
-
-    for c in nulisa_col:
-        # NB: chained assignment, kept as in the original code.
-        meta.loc[meta['column'] == c, 'description'] = (
-            f"Nulisa {c.rsplit('_', 2)[1]} "
-            f"at year {c.rsplit('_', 2)[2].replace('y', '')}"
-        )
 
     for c in ["nulisa_APOE4", "nulisa_CHIT1", "nulisa_GDF15"]:
         # Remove {c}_0y and {c}_2y
