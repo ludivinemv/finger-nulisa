@@ -98,7 +98,7 @@ EXCLUDE_FROM_MODELS <- c(
 folder_path <- "../synthetic_data/"
 original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0("outputs_R/total_cohort/")
+output_path <- paste0("../outputs_R/total_cohort/")
 
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 for (fold in c("Longitudinal","cross-sectional","Stratified")){
@@ -114,10 +114,10 @@ for (fold in c("Longitudinal","cross-sectional","Stratified")){
 # ..............................................................................
 
 
-source("functions/plots_and_tables")
-source("functions/utilities")
-source("functions/preprocessing")
-source("functions/statistics")
+source("functions/plots_and_tables.R")
+source("functions/utilities.R")
+source("functions/preprocessing.R")
+source("functions/statistics.R")
 
 
 
@@ -176,7 +176,7 @@ source("functions/statistics")
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -383,8 +383,7 @@ top25_tables <- create_top25_tables(
   output_path = output_path,
   folder = "cross-sectional",
   method = "cross-sectional",
-  p = "biomarker pvalue",
-  beta = "biomarker coeff"
+  p = "biomarker pvalue"
 )
 
 top25_df <- top25_tables$top25_df
@@ -574,7 +573,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -812,8 +811,7 @@ top25_tables <- create_top25_tables(
   output_path = output_path,
   folder = "Longitudinal",
   method = "ztotal_vs_time_totalcohort_adj_group_x_time",
-  p = "bm:year pvalue",
-  beta = "bm:year coeff"
+  p = "bm:year pvalue"
 )
 
 top25_df <- top25_tables$top25_df
@@ -864,7 +862,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 
 
 # .............................................................................

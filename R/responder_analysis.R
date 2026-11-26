@@ -57,6 +57,7 @@ for (pkg in packages) {
 }
 
 
+
 # /////////////////////////////////////////////////////////////////////////////
 # User and paths
 # /////////////////////////////////////////////////////////////////////////////
@@ -64,11 +65,22 @@ for (pkg in packages) {
 folder_path <- "../synthetic_data/"
 original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0("outputs_R/Responder_analysis/")
+output_path <- paste0("../outputs_R/Responder_analysis/")
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
 }
+
+# ..............................................................................
+## Functions -------------------------------------------------------------------
+# ..............................................................................
+
+
+source("functions/plots_and_tables.R")
+source("functions/utilities.R")
+source("functions/preprocessing.R")
+source("functions/statistics.R")
+
 
 
 # /////////////////////////////////////////////////////////////////////////////
@@ -98,10 +110,10 @@ drop_excluded <- function(bm_names) {
 
 file_path <- paste0(
   original_path,
-  "dataset_original_clean.csv"
+  "dataset_original.csv"
 )
 
-df_first <- read_csv(
+df_all <- read_csv(
   file_path,
   show_col_types = FALSE
 )

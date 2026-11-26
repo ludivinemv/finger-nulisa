@@ -129,11 +129,11 @@ EXCLUDE_FROM_MODELS <- c(
 folder_path <- "../synthetic_data/"
 original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0("outputs_R/",group_name,"/")
+output_path <- paste0("../outputs_R/",group_name,"/")
 
 
 # Check that the input data file exists before running anything
-data_file <- paste0(original_path, "dataset_original_clean.csv")
+data_file <- paste0(original_path, "dataset_original.csv")
 if (!file.exists(data_file)) {
   stop("Input file not found:\n", data_file,
        "\nCheck folder_path / processed_path (or run the total-cohort script first, which creates it).")
@@ -154,10 +154,10 @@ for (fold in c("Longitudinal","cross-sectional","Stratified","Stratified_sex")){
 # ..............................................................................
 
 
-source("functions/plots_and_tables")
-source("functions/utilities")
-source("functions/preprocessing")
-source("functions/statistics")
+source("functions/plots_and_tables.R")
+source("functions/utilities.R")
+source("functions/preprocessing.R")
+source("functions/statistics.R")
 
 
 
@@ -194,7 +194,7 @@ source("functions/statistics")
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -277,8 +277,8 @@ run_one_biomarker <- function(bm_base, data, var_group) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log   = transform_bm(bm0_w, bm_base),
-      bm2_log   = transform_bm(bm2_w, bm_base),
+      bm0_log   = log_transformation(bm0_w, bm_base),
+      bm2_log   = log_transformation(bm2_w, bm_base),
       bm0_log_z = zscore_safe(bm0_log)
     ) %>%
     filter(!is.na(bm0_log_z))
@@ -548,7 +548,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -622,7 +622,7 @@ run_one_model <- function(bm_base, data, var_group) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log   = transform_bm(bm0_w, bm_base),
+      bm0_log   = log_transformation(bm0_w, bm_base),
       bm0_log_z = zscore_safe(bm0_log)
     ) %>%
     filter(!is.na(bm0_log_z))
@@ -1491,7 +1491,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -1608,8 +1608,8 @@ run_one_biomarker <- function(bm_base, data) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log = transform_bm(bm0_w, bm_base),
-      bm2_log = transform_bm(bm2_w, bm_base),
+      bm0_log = log_transformation(bm0_w, bm_base),
+      bm2_log = log_transformation(bm2_w, bm_base),
       bm_change = bm2_log - bm0_log,
       !!rlang::sym(var_group) := relevel(factor(df_model[[var_group]]), ref = ref_control),
       sex = relevel(factor(sex), ref = "1"),
@@ -1991,7 +1991,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -2083,8 +2083,8 @@ run_one_biomarker <- function(bm_base, data) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log = transform_bm(bm0_w, bm_base),
-      bm2_log = transform_bm(bm2_w, bm_base),
+      bm0_log = log_transformation(bm0_w, bm_base),
+      bm2_log = log_transformation(bm2_w, bm_base),
       bm_change = bm2_log - bm0_log,
       !!rlang::sym(var_group) := relevel(factor(df_model[[var_group]]), ref = ref_control),
       sex = relevel(factor(sex), ref = "1"),
@@ -2220,7 +2220,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -2306,8 +2306,8 @@ run_one_biomarker <- function(bm_base, data) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log   = transform_bm(bm0_w, bm_base),
-      bm2_log   = transform_bm(bm2_w, bm_base),
+      bm0_log   = log_transformation(bm0_w, bm_base),
+      bm2_log   = log_transformation(bm2_w, bm_base),
       bm0_log_z = zscore_safe(bm0_log)
     ) %>%
     filter(!is.na(bm0_log_z))
@@ -3383,7 +3383,7 @@ write_csv(
 # File path
 # .............................................................................
 
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 # .............................................................................
 # Load data
 # .............................................................................
@@ -3471,7 +3471,7 @@ run_one_biomarker_stratum <- function(bm_base, data, sex_level) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log = transform_bm(bm0_w, bm_base),
+      bm0_log = log_transformation(bm0_w, bm_base),
       bm0_log_z = zscore_safe(bm0_log)
     ) %>%
     filter(!is.na(bm0_log_z))
@@ -3678,7 +3678,7 @@ write_csv(
 # File path
 # .............................................................................
 
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 
 # .............................................................................
 # Load data
@@ -3763,8 +3763,8 @@ run_one_biomarker <- function(bm_base, data) {
   
   df_model <- df_model %>%
     mutate(
-      bm0_log   = transform_bm(bm0_w, bm_base),
-      bm2_log   = transform_bm(bm2_w, bm_base),
+      bm0_log   = log_transformation(bm0_w, bm_base),
+      bm2_log   = log_transformation(bm2_w, bm_base),
       bm0_log_z = zscore_safe(bm0_log)
     ) %>%
     filter(!is.na(bm0_log_z))

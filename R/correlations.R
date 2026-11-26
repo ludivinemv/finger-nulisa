@@ -72,7 +72,7 @@ for (pkg in packages) {
 folder_path <- "../synthetic_data/"
 original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0("outputs_R/correlations/")
+output_path <- paste0("../outputs_R/correlations/")
 
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 
@@ -80,7 +80,7 @@ if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Creat
 # .............................................................................
 # Load data
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,"dataset_original.csv")
 df <- read_csv(file_path, show_col_types = FALSE)
 
 cat("Original participants/rows:", nrow(df), "\n")
