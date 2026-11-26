@@ -71,11 +71,7 @@ packages <- c("dplyr",
 # Loop to install packages
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) { # Install only if the package is not already installed
-    if (pkg == "colorblindr"){
-      remotes::install_github("clauswilke/colorblindr")
-    }else{
-      install.packages(pkg)
-    }
+    install.packages(pkg)
   }
 }
 
