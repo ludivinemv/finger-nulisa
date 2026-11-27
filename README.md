@@ -102,6 +102,7 @@ To apply the scripts to your data, change the following with your paths and file
 - In R scripts update the variables under section "# Arguments ----"
 - In R script responder_analysis.R, define high adherence under "# Create adherence groups"
 - In python scripts, update variables under section "#! Options ########"
+- For python scripts, update python/projectspecific/config.py file with your paths
 
 
 
