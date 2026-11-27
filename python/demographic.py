@@ -17,7 +17,6 @@
 import os
 import pandas as pd
 import numpy as np  
-import ast
 
 #! PRIVATE IMPORTS
 from projectspecific.project_functions import get_data
@@ -65,19 +64,15 @@ if __name__ == "__main__":
     subset = 'mitt_nulisa'
 
     #! Load the data
-    df_all, meta = get_data()
+    df_all = get_data()
 
 
     # select the subset
     col_nulisa = df_all.columns[df_all.columns.str.startswith('nulisa')].tolist()
-    col_baseline = df_all.columns[
-        df_all.columns.str.startswith('nulisa') & df_all.columns.str.endswith('_0y')
-    ].tolist()
-    col_2y = df_all.columns[
-        df_all.columns.str.startswith('nulisa') & df_all.columns.str.endswith('_2y')
-    ].tolist()
+    col_baseline = df_all.columns[df_all.columns.str.startswith('nulisa') & df_all.columns.str.endswith('_0y')].tolist()
+    col_2y = df_all.columns[df_all.columns.str.startswith('nulisa') & df_all.columns.str.endswith('_2y')].tolist()
     df = df_all[df_all['mITT']==1] if subset in ['mitt','mitt_nulisa'] else df_all         
-    #df_02 = df.dropna(subset=col_nulisa, how='all')
+
     df = df.dropna(subset=col_baseline, how='all')
 
     # if the folder does not exist, create it
@@ -167,8 +162,7 @@ if __name__ == "__main__":
     df_stats = StatsDataFrame() # StatsDataFrame is a custom class defined in utils/classes.py
 
     #! Sex
-    dict_sex = meta[meta['column']=='sex']['values'].values[0]
-    dict_sex = ast.literal_eval(dict_sex)
+    dict_sex = {1: 'Male', 2: 'Female'}
 
     df_sex = df.copy()
     df_sex['sex'] = df_sex['sex'].replace(dict_sex)

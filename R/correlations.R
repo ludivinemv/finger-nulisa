@@ -35,10 +35,39 @@
 # - CSV files with rho, P, FDR, and N
 # ============================================================
 
+# /////////////////////////////////////////////////////////////////////////////
+# Arguments -------------------------------------------------------------------
+# /////////////////////////////////////////////////////////////////////////////
 
-# ------------------------------------------------------------
-# 1. PACKAGES
-# ------------------------------------------------------------
+covariates <- c( # list of covariates
+  "age_bl1", #age at baseline
+  "sex", #sex
+  "educ_years_BL1", # education 
+  "bmi_bl2", #BMI at baseline
+  "campid" #site
+)
+
+
+
+exclude_proteins <- c(  #Here we exclude core biomarkers and APOE4 from analses
+  "pTau181",
+  "pTau231",
+  "pTau217",
+  "AB38",
+  "NEFL",
+  "GFAP",
+  "AB40",
+  "AB42",
+  "lumipulse_ptau217",
+  "APOE4"
+)
+
+male_val <- 1 # male value
+female_val <- 2 # female value
+
+# /////////////////////////////////////////////////////////////////////////////
+## PACKAGES -------------------------------------------------------------------
+# /////////////////////////////////////////////////////////////////////////////
 
 packages <- c(
   "readr",
@@ -65,57 +94,62 @@ for (pkg in packages) {
   library(pkg, character.only = TRUE)
 }
 
-# ============================================================
-# LOAD DATA AND APPLY PARTICIPANT SELECTION CRITERIA
-# ============================================================
-folder_path <- "../data/"
-processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0(folder_path,"outputs_R/correlations/")
+
+# /////////////////////////////////////////////////////////////////////////////
+## Path definition -------------------------------------------------------------
+# /////////////////////////////////////////////////////////////////////////////
+
+folder_path <- "../synthetic_data/"
+original_path <- paste0(folder_path,"original/")
+output_path <- paste0("../outputs_R/correlations/")
+
+data_file_name <- "dataset_original.csv"
 
 
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
+
+# /////////////////////////////////////////////////////////////////////////////
+# LOAD DATA AND APPLY PARTICIPANT SELECTION CRITERIA
+# /////////////////////////////////////////////////////////////////////////////
+
+#variables
+
+id_col <- "ID" #ID columns
+apoe_status_col <- "apoe4_status" #apoe4 status column
+age_col <- "age_bl1" #age column
+sex_col <- "sex" #sex column
+edu_col <- "educ_years_BL1" #education years column
+bmi_col <- "bmi_bl2" #bmi column
+site_col <- "campid" #site column
+
+baseline_cognition <- "ztotal_composite_BL2" # main baseline outcome column (cognition)
+
+followup_cognition <- c(
+  "ztotal_composite_12kk",# main outcome FU column (cognition at 1 year)
+  "ztotal_composite_24kk" # main outcome FU column (cognition at 2 year)
+)
+
+#nulisa columns: Nulisa columns are names the following "nulisa_" + biomarker + "_" + year (0 or 2)
+columns_prefix_nulisa <- "nulisa_"
+columns_suffix_baseline <- "_0"
+columns_suffix_fu2 <- "_2"
 
 
 # .............................................................................
 # Load data
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,dataset_original.csv)
 df <- read_csv(file_path, show_col_types = FALSE)
 
 cat("Original participants/rows:", nrow(df), "\n")
 
 
-# ------------------------------------------------------------
-# 1. Required cognitive variables
-# ------------------------------------------------------------
-
-baseline_cognition <- "ztotal_composite_BL2"
-
-followup_cognition <- c(
-  "ztotal_composite_12kk",
-  "ztotal_composite_24kk"
-)
-
-
-# ------------------------------------------------------------
-# 2. Required covariates
-# ------------------------------------------------------------
-
-covariates <- c(
-  "age_bl1",
-  "sex",
-  "educ_years_BL1",
-  "bmi_bl2",
-  "campid"
-)
-
-
-# ------------------------------------------------------------
-# 3. Check variables exist
-# ------------------------------------------------------------
+# ..............................................................................
+# Check variables exist
+# ..............................................................................
 
 required_vars <- c(
-  "ID",
+  id_col,
   baseline_cognition,
   followup_cognition,
   covariates
@@ -131,9 +165,9 @@ if (length(missing_vars) > 0) {
 }
 
 
-# ------------------------------------------------------------
-# 4. Apply participant-selection criteria
-# ------------------------------------------------------------
+# ..............................................................................
+# Apply participant-selection criteria
+# ..............................................................................
 
 df <- df %>%
   dplyr::filter(
@@ -158,9 +192,9 @@ cat(
 )
 
 
-# ------------------------------------------------------------
-# 5. Verify one row per participant
-# ------------------------------------------------------------
+# ..............................................................................
+# Verify one row per participant
+# ..............................................................................
 
 if (anyDuplicated(df$ID) > 0) {
   stop(
@@ -170,9 +204,9 @@ if (anyDuplicated(df$ID) > 0) {
 }
 
 
-# ------------------------------------------------------------
-# 6. Check APOE4 status
-# ------------------------------------------------------------
+# ..............................................................................
+# Check APOE4 status
+# ..............................................................................
 
 # APOE4 status is required for the demographic correlation,
 # but was not included in your base_vars vector.
@@ -181,7 +215,7 @@ if (anyDuplicated(df$ID) > 0) {
 # from every correlation unless that was also done
 # in the original longitudinal analysis.
 
-if (!"apoe4_status" %in% names(df)) {
+if (!apoe_status_col %in% names(df)) {
   stop("Column apoe4_status not found.")
 }
 
@@ -191,9 +225,9 @@ cat(
   "\n"
 )
 
-# ------------------------------------------------------------
-# 3. IDENTIFY ALL BASELINE NULISA PROTEINS
-# ------------------------------------------------------------
+# ..............................................................................
+# IDENTIFY ALL BASELINE NULISA PROTEINS
+# ..............................................................................
 
 # Example:
 # nulisa_RUVBL2_0
@@ -201,7 +235,7 @@ cat(
 # nulisa_AB42_0
 
 all_baseline_proteins <- grep(
-  "^nulisa_.*_0$",
+  paste0("^", columns_prefix_nulisa, ".*", columns_suffix_baseline, "$"),
   names(df),
   value = TRUE
 )
@@ -214,29 +248,16 @@ if (length(all_baseline_proteins) == 0) {
 }
 
 
-# ------------------------------------------------------------
+# ..............................................................................
 # 4. EXCLUDE CORE BIOMARKERS FROM PROTEIN ROWS AND APOE4
-# ------------------------------------------------------------
-
-exclude_proteins <- c(
-  "pTau181",
-  "pTau231",
-  "pTau217",
-  "AB38",
-  "NEFL",
-  "GFAP",
-  "AB40",
-  "AB42",
-  "lumipulse_ptau217",
-  "APOE4"
-)
+# ..............................................................................
 
 # Remove prefix and baseline suffix for comparison
 
 protein_names_clean <- sub(
-  "_0$",
+  paste0(columns_suffix_baseline, "$"),
   "",
-  sub("^nulisa_", "", all_baseline_proteins)
+  sub(paste0("^", columns_prefix_nulisa), "", all_baseline_proteins)
 )
 
 nulisa_proteins <- all_baseline_proteins[
@@ -247,7 +268,11 @@ nulisa_proteins <- all_baseline_proteins[
 
 nulisa_proteins <- nulisa_proteins[
   order(
-    sub("_0$", "", sub("^nulisa_", "", nulisa_proteins))
+    sub(
+      paste0(columns_suffix_baseline, "$"),
+      "",
+      sub(paste0("^", columns_prefix_nulisa), "", nulisa_proteins)
+    )
   )
 ]
 
@@ -257,35 +282,9 @@ cat(
   "\n"
 )
 
-
-# ------------------------------------------------------------
-# 5. CHECK REQUIRED COLUMNS
-# ------------------------------------------------------------
-
-required_columns <- c(
-  "age_bl1",
-  "sex",
-  "apoe4_status",
-  "nulisa_AB42_0",
-  "nulisa_AB40_0"
-)
-
-missing_columns <- setdiff(
-  required_columns,
-  names(df)
-)
-
-if (length(missing_columns) > 0) {
-  stop(
-    "Missing required columns:\n",
-    paste(missing_columns, collapse = "\n")
-  )
-}
-
-
-# ------------------------------------------------------------
-# 6. RECODE SEX
-# ------------------------------------------------------------
+# ..............................................................................
+# RECODE SEX
+# ..............................................................................
 
 # Original:
 # 1 = male
@@ -295,7 +294,7 @@ if (length(missing_columns) > 0) {
 # 0 = male
 # 1 = female
 
-if (!all(na.omit(df$sex) %in% c(1, 2))) {
+if (!all(na.omit(df$sex) %in% c(male_val, female_val))) {
   stop(
     "Unexpected sex coding. Expected 1 = male, 2 = female."
   )
@@ -310,16 +309,16 @@ if (!all(na.omit(df$apoe4_status) %in% c(0, 1))) {
 df <- df %>%
   mutate(
     sex_female = case_when(
-      sex == 1 ~ 0,
-      sex == 2 ~ 1,
+      sex == male_val ~ 0,
+      sex == female_val ~ 1,
       TRUE ~ NA_real_
     )
   )
 
 
-# ------------------------------------------------------------
+# ..............................................................................
 # 7. CALCULATE BASELINE AB42/40 RATIO (log2 scale)
-# ------------------------------------------------------------
+# ..............................................................................
 
 # NPQ values are log2, so the log2 AB42/40 ratio is the DIFFERENCE:
 #   log2(AB42/AB40) = NPQ_AB42 - NPQ_AB40
@@ -337,14 +336,14 @@ cat(
 )
 
 
-# ------------------------------------------------------------
+# ..............................................................................
 # 8. DEFINE CORRELATION VARIABLES
-# ------------------------------------------------------------
+# ..............................................................................
 
 demographic_variables <- c(
-  "age_bl1",
+  age_col,
   "sex_female",
-  "apoe4_status"
+  apoe_status_col
 )
 
 # Map biomarker labels to baseline dataset columns.
@@ -363,9 +362,9 @@ biomarker_columns <- c(
 )
 
 
-# ------------------------------------------------------------
+# ..............................................................................
 # 9. CHECK ALL ANALYSIS COLUMNS
-# ------------------------------------------------------------
+# ..............................................................................
 
 required_analysis_columns <- unique(c(
   nulisa_proteins,
@@ -388,9 +387,9 @@ if (length(missing_analysis_columns) > 0) {
 }
 
 
-# ------------------------------------------------------------
+# ..............................................................................
 # 10. ENSURE NUMERIC VALUES
-# ------------------------------------------------------------
+# ..............................................................................
 
 analysis_columns <- unique(c(
   nulisa_proteins,
@@ -414,9 +413,9 @@ if (length(non_numeric) > 0) {
 }
 
 
-# ------------------------------------------------------------
+# ..............................................................................
 # 11. SPEARMAN CORRELATION FUNCTION
-# ------------------------------------------------------------
+# ..............................................................................
 
 calculate_correlations <- function(
     data,
@@ -548,9 +547,9 @@ cat(
 # ============================================================
 
 labels_demographics <- c(
-  "age_bl1" = "Age",
+  age_col = "Age",
   "sex_female" = "Sex (female)",
-  "apoe4_status" = "APOE ε4 carrier"
+  apoe_status_col = "APOE ε4 carrier"
 )
 
 labels_biomarkers <- c(

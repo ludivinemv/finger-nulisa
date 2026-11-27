@@ -30,6 +30,20 @@
 
 
 # /////////////////////////////////////////////////////////////////////////////
+# Arguments -------------------------------------------------------------------
+# /////////////////////////////////////////////////////////////////////////////
+# Excluded from ALL protein models (and therefore from FDR):
+# - core AD biomarkers (already excluded from the figures)
+# - NULISA APOE4 (reflects the APOE e4 allele)
+EXCLUDE_FROM_MODELS <- c(
+  "pTau181", "pTau231", "pTau217",
+  "AB38", "AB40", "AB42",
+  "NEFL", "GFAP",
+  "APOE4",
+  "lumipulse_ptau217"
+)
+
+# /////////////////////////////////////////////////////////////////////////////
 # Packages
 # /////////////////////////////////////////////////////////////////////////////
 
@@ -57,33 +71,36 @@ for (pkg in packages) {
 }
 
 
-# /////////////////////////////////////////////////////////////////////////////
-# User and paths
-# /////////////////////////////////////////////////////////////////////////////
+# ..............................................................................
+## Path definition -------------------------------------------------------------
+# ..............................................................................
 
+data_file_name <- "dataset_original.csv"
 
-folder_path <- "../data/"
-processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0(folder_path,"outputs_R/Responder_analysis")
+folder_path <- "../synthetic_data/"
+original_path <- paste0(folder_path,"original/")
+output_path <- paste0("../outputs_R/Responder_analysis/")
 
 if (!dir.exists(output_path)) {
   dir.create(output_path, recursive = TRUE)
 }
 
+# ..............................................................................
+## Functions -------------------------------------------------------------------
+# ..............................................................................
+
+
+source("functions/plots_and_tables.R")
+source("functions/utilities.R")
+source("functions/preprocessing.R")
+source("functions/statistics.R")
+
+
 
 # /////////////////////////////////////////////////////////////////////////////
 # Exclusions
 # /////////////////////////////////////////////////////////////////////////////
-# Excluded from ALL protein models (and therefore from FDR):
-# - core AD biomarkers (already excluded from the figures)
-# - NULISA APOE4 (reflects the APOE e4 allele)
-EXCLUDE_FROM_MODELS <- c(
-  "pTau181", "pTau231", "pTau217",
-  "AB38", "AB40", "AB42",
-  "NEFL", "GFAP",
-  "APOE4",
-  "lumipulse_ptau217"
-)
+
 
 drop_excluded <- function(bm_names) {
   short <- sub("_0$", "", sub("^nulisa_", "", bm_names))
@@ -97,11 +114,11 @@ drop_excluded <- function(bm_names) {
 # /////////////////////////////////////////////////////////////////////////////
 
 file_path <- paste0(
-  processed_path,
-  "dataset_original_clean.csv"
+  original_path,
+  data_file_name
 )
 
-df_first <- read_csv(
+df_all <- read_csv(
   file_path,
   show_col_types = FALSE
 )
@@ -110,6 +127,7 @@ df_first <- read_csv(
 # /////////////////////////////////////////////////////////////////////////////
 # Create adherence groups
 # /////////////////////////////////////////////////////////////////////////////
+# here adherence is considered high if 7 or 8, and lower/medium if 1 to 6
 
 df_all <- df_all %>%
   mutate(

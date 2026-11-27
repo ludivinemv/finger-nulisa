@@ -19,7 +19,18 @@ color_noncarrier= "#E69F00"
 color_control="#4D4D4D"
 color_interv = "#CC79A7"
 
-
+# Biomarkers excluded from ALL models
+# - core AD biomarkers (already excluded from the figures)
+# - NULISA APOE4: reflects the APOE e4 allele (genotype-driven distribution)
+# Excluding them here also means they are not counted in the FDR correction.
+# Lumipulse pTau217 is still used as the OUTCOME in the pTau217-outcome models and as a comparator in the correlation heatmaps.
+EXCLUDE_FROM_MODELS <- c(
+  "pTau181", "pTau231", "pTau217",
+  "AB38", "AB40", "AB42",
+  "NEFL", "GFAP",
+  "APOE4",
+  "lumipulse_ptau217"
+)
 
 # /////////////////////////////////////////////////////////////////////////////
 # Commune script for all parts ------------------------------------------------
@@ -76,29 +87,21 @@ list_colors <- c(
   "control" = color_control
 )
 
-# Biomarkers excluded from ALL models
-# - core AD biomarkers (already excluded from the figures)
-# - NULISA APOE4: reflects the APOE e4 allele (genotype-driven distribution)
-# Excluding them here also means they are not counted in the FDR correction.
-# Lumipulse pTau217 is still used as the OUTCOME in the pTau217-outcome models and as a comparator in the correlation heatmaps.
-EXCLUDE_FROM_MODELS <- c(
-  "pTau181", "pTau231", "pTau217",
-  "AB38", "AB40", "AB42",
-  "NEFL", "GFAP",
-  "APOE4",
-  "lumipulse_ptau217"
-)
-
-
 
 
 # ..............................................................................
 ## Path definition -------------------------------------------------------------
 # ..............................................................................
-folder_path <- "../data/"
+folder_path <- "../synthetic_data/"
+original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0(folder_path,"outputs_R/total_cohort/")
-  
+output_path <- paste0("../outputs_R/total_cohort/")
+
+
+data_file_name <- data_file_name
+
+
+
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 for (fold in c("Longitudinal","cross-sectional","Stratified")){
   if (!dir.exists(paste0(output_path,"/",fold))) {dir.create(paste0(output_path,"/",fold))}# Create the folder if it does not exist
@@ -113,10 +116,10 @@ for (fold in c("Longitudinal","cross-sectional","Stratified")){
 # ..............................................................................
 
 
-source("functions/plots_and_tables")
-source("functions/utilities")
-source("functions/preprocessing")
-source("functions/statistics")
+source("functions/plots_and_tables.R")
+source("functions/utilities.R")
+source("functions/preprocessing.R")
+source("functions/statistics.R")
 
 
 
@@ -175,7 +178,7 @@ source("functions/statistics")
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data
@@ -382,8 +385,7 @@ top25_tables <- create_top25_tables(
   output_path = output_path,
   folder = "cross-sectional",
   method = "cross-sectional",
-  p = "biomarker pvalue",
-  beta = "biomarker coeff"
+  p = "biomarker pvalue"
 )
 
 top25_df <- top25_tables$top25_df
@@ -573,7 +575,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data
@@ -811,8 +813,7 @@ top25_tables <- create_top25_tables(
   output_path = output_path,
   folder = "Longitudinal",
   method = "ztotal_vs_time_totalcohort_adj_group_x_time",
-  p = "bm:year pvalue",
-  beta = "bm:year coeff"
+  p = "bm:year pvalue"
 )
 
 top25_df <- top25_tables$top25_df
@@ -863,7 +864,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(processed_path,"dataset_original_clean.csv")
+file_path <- paste0(original_path,data_file_name)
 
 
 # .............................................................................
