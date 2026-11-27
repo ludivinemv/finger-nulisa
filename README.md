@@ -15,14 +15,14 @@ The FINGER trial demonstrated that a multidomain lifestyle intervention benefits
 
 # System requirements
 
-The scripts were tested on Windows 11 operating system with the following version:
+The scripts were tested on Windows 11 operating system with the following versions:
 - R version 4.6.0
 - python version 3.11.13
 
 
 Required Python packages and their tested versions are listed in python/requirements.txt.
 
-Required packages are being installed at the beginning of the R scripts with the following lines:
+Required R packages are being installed at the beginning of the R scripts with the following lines:
 ```r
 # Loop to install packages
 for (pkg in packages) {
@@ -31,7 +31,7 @@ for (pkg in packages) {
   }
 }
 ```
-The following packages versions were used:
+The following R packages versions were used:
 
 ```
 broom  1.0.12
