@@ -1,0 +1,391 @@
+column,description,values,type,time_dependent,baseline,one_year,two_year
+sex,Sex,"{1: 'Male', 2: 'Female'}",int16,0,0,0,0
+campid,Place of visit,"{101: 'Helsinki', 201: 'Vantaa', 301: 'Seinäjoki', 401: 'Oulu', 501: 'Kuopio', 601: 'Turku'}",int32,0,0,0,0
+sub_sample_id,Study group,"{2: 'Intervention', 3: 'Control'}",int32,0,0,0,0
+age_bl1,Age at baseline,,float,1,1,0,0
+smoke_curr_12kk,smoking currently at 1 year,"{1: 'yes, daily', 2: 'yes, occasionally', 3: 'not at all'}",int16,1,0,1,0
+current_smoking_12kk,Number of cigarettes at 1 year,,float,1,0,1,0
+smoke_curr_24kk,smoking currently at 2 year,"{1: 'yes, daily', 2: 'yes, occasionally', 3: 'not at all'}",int16,1,0,0,1
+current_smoking_24kk,Number of cigarettes at 2 years,,float,1,0,0,1
+educ_years_BL1,full time studying years at baseline,,double,0,0,0,0
+smoke_ever_BL1,has ever been smoking at baseline,"{1: 'No', 2: 'Yes'}",int16,1,0,0,0
+smoke_reg_BL1,smoking regularly at baseline,"{1: 'I have never smoked regularly', 2: 'I have smoked regularly for xx years'}",int16,1,0,0,0
+smoke_curr_BL1,smoking currently at baseline,"{1: 'yes, daily', 2: 'yes, occasionally', 3: 'not at all'}",int16,1,0,0,0
+current_smoking_BL1,Number of cigarettes at baseline,,float,1,0,0,0
+multilifestyle0,multilifestyle at baseline,,float,1,0,0,0
+multilifestyle1,multilifestyle at 1 year,,float,1,0,0,0
+multilifestyle2,multilifestyle at 2 years,,float,1,0,0,0
+atc_B01AC06_24kk,Acetylsalicylic acid use at 2 years,,float,1,0,0,1
+atc_H02_A_B_24kk,Corticosteroids for systemic use at 2 years,,float,1,0,0,1
+atc_M01_A_B_24kk,NSAID at 2 years,,float,1,0,0,1
+atc_B01AC06_Scr,Acetylsalicylic acid use at baseline,,float,1,1,0,0
+atc_H02_A_B_Scr,Corticosteroids for systemic use at baseline,,float,1,1,0,0
+atc_M01_A_B_Scr,NSAID at baseline,,float,1,1,0,0
+apoe_from_UEF,APOE,,int8,0,0,0,0
+grs_5e8_20022022,GRS_5e8,,float,0,0,0,0
+apoe4_status,Apoe4 status,,float,0,0,0,0
+il_10,il_10 labresult,,double,1,0,0,0
+il_12_p40,il_12_p40 labresult,,double,1,0,0,0
+il_12_p70,il_12_p70 labresult,,double,1,0,0,0
+il_13,il_13 labresult,,double,1,0,0,0
+il_15,il_15 labresult,,double,1,0,0,0
+il_17,il_17 labresult,,double,1,0,0,0
+il_1b,il_1b labresult,,double,1,0,0,0
+il_2,il_2 labresult,,double,1,0,0,0
+il_3,il_3 labresult,,double,1,0,0,0
+il_4,il_4 labresult,,double,1,0,0,0
+il_5,il_5 labresult,,double,1,0,0,0
+il_6,il_6 labresult,,double,1,0,0,0
+il_7,il_7 labresult,,double,1,0,0,0
+il_8,il_8 labresult,,double,1,0,0,0
+b_hba1c_12kk,b_hba1c labresult,,double,1,0,1,0
+fp_gluk_0_12kk,fp_gluk_0 labresult,,double,1,0,1,0
+fs_kol_12kk,fs_kol labresult,,double,1,0,1,0
+fs_kol_hdl_12kk,fs_kol_hdl labresult,,double,1,0,1,0
+fs_kol_ldl_12kk,fs_kol_ldl labresult,,double,1,0,1,0
+fs_krea_12kk,fs_krea labresult,,double,1,0,1,0
+s_hs_crp_12kk,s_hs_crp labresult,,double,1,0,1,0
+b_hba1c_24kk,b_hba1c labresult,,double,1,0,0,1
+fp_gluk_0_24kk,fp_gluk_0 labresult,,double,1,0,0,1
+fs_kol_24kk,fs_kol labresult,,double,1,0,0,1
+fs_kol_hdl_24kk,fs_kol_hdl labresult,,double,1,0,0,1
+fs_kol_ldl_24kk,fs_kol_ldl labresult,,double,1,0,0,1
+fs_krea_24kk,fs_krea labresult,,double,1,0,0,1
+s_hs_crp_24kk,s_hs_crp labresult,,double,1,0,0,1
+b_hba1c_BL1,b_hba1c labresult,,double,1,0,0,0
+fp_gluk_0_BL1,fp_gluk_0 labresult,,double,1,0,0,0
+fs_kol_BL1,fs_kol labresult,,double,1,0,0,0
+fs_kol_hdl_BL1,fs_kol_hdl labresult,,double,1,0,0,0
+fs_kol_ldl_BL1,fs_kol_ldl labresult,,double,1,0,0,0
+fs_krea_BL1,fs_krea labresult,,double,1,0,0,0
+s_hs_crp_BL1,s_hs_crp labresult,,double,1,0,0,0
+dg_diabetes_12mo_12kk,"diagnosed during the last 12 months, diabetes","{1: 'No', 2: 'Yes'}",int8,1,0,1,0
+diabetes_ever_no_12kk,"diagnosed for diabetes, no","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_ever_no2_12kk,"diagnosed for diabetes, no, but elevated blood glucose levels or latent diabetes","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_ever_t1_12kk,"diagnosed for diabetes, yes, type 1 diabetes","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_ever_t2_12kk,"diagnosed for diabetes, yes, type 2 diabetes","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_ever_preg_12kk,"diagnosed for diabetes, yes, gestational diabetes","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_ever_dktype_12kk,"diagnosed for diabetes, yes, but I don't know which type","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_treat_diet_12kk,"treatment for diabetes, dietary counseling only","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_treat_ins_12kk,"treatment for diabetes, insulin treatment","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_treat_tab_12kk,"treatment for diabetes, tablet treatment","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_treat_ins_tab_12kk,"treatment for diabetes, insulin and tablet","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+diabetes_treat_no_12kk,"treatment for diabetes, none of the above","{0: 'no', 1: 'yes'}",int8,1,0,1,0
+dg_diabetes_12mo_24kk,"diagnosed during the last 12 months, diabetes","{1: 'No', 2: 'Yes'}",int8,1,0,0,1
+diabetes_ever_no_24kk,"diagnosed for diabetes, no","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_ever_no2_24kk,"diagnosed for diabetes, no, but elevated blood glucose levels or latent diabetes","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_ever_t1_24kk,"diagnosed for diabetes, yes, type 1 diabetes","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_ever_t2_24kk,"diagnosed for diabetes, yes, type 2 diabetes","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_ever_preg_24kk,"diagnosed for diabetes, yes, gestational diabetes","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_ever_dktype_24kk,"diagnosed for diabetes, yes, but I don't know which type","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_treat_diet_24kk,"treatment for diabetes, dietary counseling only","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_treat_ins_24kk,"treatment for diabetes, insulin treatment","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_treat_tab_24kk,"treatment for diabetes, tablet treatment","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_treat_ins_tab_24kk,"treatment for diabetes, insulin and tablet","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+diabetes_treat_no_24kk,"treatment for diabetes, none of the above","{0: 'no', 1: 'yes'}",int8,1,0,0,1
+dg_diabetes_12mo_Scr,"diagnosed during the last 12 months, diabetes","{1: 'No', 2: 'Yes'}",int8,1,1,0,0
+diabetes_ever_no_Scr,"diagnosed for diabetes, no","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_ever_no2_Scr,"diagnosed for diabetes, no, but elevated blood glucose levels or latent diabetes","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_ever_t1_Scr,"diagnosed for diabetes, yes, type 1 diabetes","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_ever_t2_Scr,"diagnosed for diabetes, yes, type 2 diabetes","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_ever_preg_Scr,"diagnosed for diabetes, yes, gestational diabetes","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_ever_dktype_Scr,"diagnosed for diabetes, yes, but I don't know which type","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_treat_diet_Scr,"treatment for diabetes, dietary counseling only","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_treat_ins_Scr,"treatment for diabetes, insulin treatment","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_treat_tab_Scr,"treatment for diabetes, tablet treatment","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_treat_ins_tab_Scr,"treatment for diabetes, insulin and tablet","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+diabetes_treat_no_Scr,"treatment for diabetes, none of the above","{0: 'no', 1: 'yes'}",int8,1,1,0,0
+bmi_bl2,bmi. Possibly imputed by screening visit height.,,double,1,0,0,0
+systolic_bl2,"Systolic blood pressure, mean of 1st and 2nd measument",,float,1,0,0,0
+diastolic_bl2,"Diastolic blood pressure, mean of 1st and 2nd measument",,float,1,0,0,0
+bmi_12kk,Body mass index (kg/m2),,double,1,0,1,0
+systolic_12kk,"Systolic blood pressure, mean of 1st and 2nd measument",,float,1,0,1,0
+diastolic_12kk,"Diastolic blood pressure, mean of 1st and 2nd measument",,float,1,0,1,0
+bmi_24kk,Body mass index (kg/m2),,float,1,0,0,1
+systolic_24kk,"Systolic blood pressure, mean of 1st and 2nd measument",,float,1,0,0,1
+diastolic_24kk,"Diastolic blood pressure, mean of 1st and 2nd measument",,float,1,0,0,1
+mmse_tot_24kk,"mini-mental state exam (mmse), total",,int8,1,0,0,1
+mmse_tot_Scr,"mini-mental state exam (mmse), total",,int8,1,1,0,0
+ztotal_composite_12kk,,,float,1,0,1,0
+zmemory_domain_12kk,,,float,1,0,1,0
+zabbr_memory_domain_12kk,,,float,1,0,1,0
+zexecutive_funct_domain_12kk,,,float,1,0,1,0
+zprocessing_speed_domain_12kk,,,float,1,0,1,0
+ztotal_composite_24kk,,,float,1,0,0,1
+zmemory_domain_24kk,,,float,1,0,0,1
+zabbr_memory_domain_24kk,,,float,1,0,0,1
+zexecutive_funct_domain_24kk,,,float,1,0,0,1
+zprocessing_speed_domain_24kk,,,float,1,0,0,1
+ztotal_composite_BL2,,,float,1,0,0,0
+zmemory_domain_BL2,,,float,1,0,0,0
+zabbr_memory_domain_BL2,,,float,1,0,0,0
+zexecutive_funct_domain_BL2,,,float,1,0,0,0
+zprocessing_speed_domain_BL2,,,float,1,0,0,0
+lumipulse_ptau217_0,0 lumipulse_ptau_,,double,1,0,0,0
+lumipulse_ptau217_2,2 lumipulse_ptau_,,double,1,0,0,0
+nulisa_AB38_0,0 nulisa_AB38_,,float,1,1,0,0
+nulisa_AB40_0,0 nulisa_AB40_,,float,1,1,0,0
+nulisa_AB42_0,0 nulisa_AB42_,,float,1,1,0,0
+nulisa_ACHE_0,0 nulisa_ACHE_,,float,1,1,0,0
+nulisa_AGRN_0,0 nulisa_AGRN_,,float,1,1,0,0
+nulisa_ANXA5_0,0 nulisa_ANXA5_,,float,1,1,0,0
+nulisa_APOE_0,0 nulisa_APOE_,,float,1,1,0,0
+nulisa_APOE4_0,0 nulisa_APOE4_,,float,1,1,0,0
+nulisa_ARSA_0,0 nulisa_ARSA_,,float,1,1,0,0
+nulisa_BACE1_0,0 nulisa_BACE1_,,float,1,1,0,0
+nulisa_BASP1_0,0 nulisa_BASP1_,,float,1,1,0,0
+nulisa_BDNF_0,0 nulisa_BDNF_,,float,1,1,0,0
+nulisa_CALB2_0,0 nulisa_CALB2_,,float,1,1,0,0
+nulisa_CCL11_0,0 nulisa_CCL11_,,float,1,1,0,0
+nulisa_CCL13_0,0 nulisa_CCL13_,,float,1,1,0,0
+nulisa_CCL17_0,0 nulisa_CCL17_,,float,1,1,0,0
+nulisa_CCL2_0,0 nulisa_CCL2_,,float,1,1,0,0
+nulisa_CCL22_0,0 nulisa_CCL22_,,float,1,1,0,0
+nulisa_CCL26_0,0 nulisa_CCL26_,,float,1,1,0,0
+nulisa_CCL3_0,0 nulisa_CCL3_,,float,1,1,0,0
+nulisa_CCL4_0,0 nulisa_CCL4_,,float,1,1,0,0
+nulisa_CD40LG_0,0 nulisa_CD40LG_,,float,1,1,0,0
+nulisa_CD63_0,0 nulisa_CD63_,,float,1,1,0,0
+nulisa_CHI3L1_0,0 nulisa_CHI3L1_,,float,1,1,0,0
+nulisa_CHIT1_0,0 nulisa_CHIT1_,,float,1,1,0,0
+nulisa_CNTN2_0,0 nulisa_CNTN2_,,float,1,1,0,0
+nulisa_CRH_0,0 nulisa_CRH_,,float,1,1,0,0
+nulisa_CRP_0,0 nulisa_CRP_,,float,1,1,0,0
+nulisa_CSF2_0,0 nulisa_CSF2_,,float,1,1,0,0
+nulisa_CST3_0,0 nulisa_CST3_,,float,1,1,0,0
+nulisa_CX3CL1_0,0 nulisa_CX3CL1_,,float,1,1,0,0
+nulisa_CXCL1_0,0 nulisa_CXCL1_,,float,1,1,0,0
+nulisa_CXCL10_0,0 nulisa_CXCL10_,,float,1,1,0,0
+nulisa_CXCL8_0,0 nulisa_CXCL8_,,float,1,1,0,0
+nulisa_ENO2_0,0 nulisa_ENO2_,,float,1,1,0,0
+nulisa_FABP3_0,0 nulisa_FABP3_,,float,1,1,0,0
+nulisa_FCN2_0,0 nulisa_FCN2_,,float,1,1,0,0
+nulisa_FGF2_0,0 nulisa_FGF2_,,float,1,1,0,0
+nulisa_FLT1_0,0 nulisa_FLT1_,,float,1,1,0,0
+nulisa_FOLR1_0,0 nulisa_FOLR1_,,float,1,1,0,0
+nulisa_GDF15_0,0 nulisa_GDF15_,,float,1,1,0,0
+nulisa_GDI1_0,0 nulisa_GDI1_,,float,1,1,0,0
+nulisa_GDNF_0,0 nulisa_GDNF_,,float,1,1,0,0
+nulisa_GFAP_0,0 nulisa_GFAP_,,float,1,1,0,0
+nulisa_GOT1_0,0 nulisa_GOT1_,,float,1,1,0,0
+nulisa_HBA1_0,0 nulisa_HBA1_,,float,1,1,0,0
+nulisa_HTT_0,0 nulisa_HTT_,,float,1,1,0,0
+nulisa_ICAM1_0,0 nulisa_ICAM1_,,float,1,1,0,0
+nulisa_IFNG_0,0 nulisa_IFNG_,,float,1,1,0,0
+nulisa_IGF1R_0,0 nulisa_IGF1R_,,float,1,1,0,0
+nulisa_IGFBP7_0,0 nulisa_IGFBP7_,,float,1,1,0,0
+nulisa_IL10_0,0 nulisa_IL10_,,float,1,1,0,0
+nulisa_IL12p70_0,0 nulisa_IL12p70_,,float,1,1,0,0
+nulisa_IL13_0,0 nulisa_IL13_,,float,1,1,0,0
+nulisa_IL15_0,0 nulisa_IL15_,,float,1,1,0,0
+nulisa_IL16_0,0 nulisa_IL16_,,float,1,1,0,0
+nulisa_IL17A_0,0 nulisa_IL17A_,,float,1,1,0,0
+nulisa_IL18_0,0 nulisa_IL18_,,float,1,1,0,0
+nulisa_IL1B_0,0 nulisa_IL1B_,,float,1,1,0,0
+nulisa_IL2_0,0 nulisa_IL2_,,float,1,1,0,0
+nulisa_IL33_0,0 nulisa_IL33_,,float,1,1,0,0
+nulisa_IL4_0,0 nulisa_IL4_,,float,1,1,0,0
+nulisa_IL5_0,0 nulisa_IL5_,,float,1,1,0,0
+nulisa_IL6_0,0 nulisa_IL6_,,float,1,1,0,0
+nulisa_IL6R_0,0 nulisa_IL6R_,,float,1,1,0,0
+nulisa_IL7_0,0 nulisa_IL7_,,float,1,1,0,0
+nulisa_IL9_0,0 nulisa_IL9_,,float,1,1,0,0
+nulisa_KDR_0,0 nulisa_KDR_,,float,1,1,0,0
+nulisa_KLK6_0,0 nulisa_KLK6_,,float,1,1,0,0
+nulisa_MAPT_0,0 nulisa_MAPT_,,float,1,1,0,0
+nulisa_MDH1_0,0 nulisa_MDH1_,,float,1,1,0,0
+nulisa_MME_0,0 nulisa_MME_,,float,1,1,0,0
+nulisa_MSLN_0,0 nulisa_MSLN_,,float,1,1,0,0
+nulisa_NEFH_0,0 nulisa_NEFH_,,float,1,1,0,0
+nulisa_NEFL_0,0 nulisa_NEFL_,,float,1,1,0,0
+nulisa_NGF_0,0 nulisa_NGF_,,float,1,1,0,0
+nulisa_NPTX1_0,0 nulisa_NPTX1_,,float,1,1,0,0
+nulisa_NPTX2_0,0 nulisa_NPTX2_,,float,1,1,0,0
+nulisa_NPTXR_0,0 nulisa_NPTXR_,,float,1,1,0,0
+nulisa_NPY_0,0 nulisa_NPY_,,float,1,1,0,0
+nulisa_NRGN_0,0 nulisa_NRGN_,,float,1,1,0,0
+nulisa_OligoSNCA_0,0 nulisa_OligoSNCA_,,float,1,1,0,0
+nulisa_PARK7_0,0 nulisa_PARK7_,,float,1,1,0,0
+nulisa_PDGFRB_0,0 nulisa_PDGFRB_,,float,1,1,0,0
+nulisa_PDLIM5_0,0 nulisa_PDLIM5_,,float,1,1,0,0
+nulisa_PGF_0,0 nulisa_PGF_,,float,1,1,0,0
+nulisa_PGK1_0,0 nulisa_PGK1_,,float,1,1,0,0
+nulisa_POSTN_0,0 nulisa_POSTN_,,float,1,1,0,0
+nulisa_PRDX6_0,0 nulisa_PRDX6_,,float,1,1,0,0
+nulisa_PSEN1_0,0 nulisa_PSEN1_,,float,1,1,0,0
+nulisa_PTN_0,0 nulisa_PTN_,,float,1,1,0,0
+nulisa_REST_0,0 nulisa_REST_,,float,1,1,0,0
+nulisa_RUVBL2_0,0 nulisa_RUVBL2_,,float,1,1,0,0
+nulisa_S100A12_0,0 nulisa_S100A12_,,float,1,1,0,0
+nulisa_S100B_0,0 nulisa_S100B_,,float,1,1,0,0
+nulisa_SAA1_0,0 nulisa_SAA1_,,float,1,1,0,0
+nulisa_SFRP1_0,0 nulisa_SFRP1_,,float,1,1,0,0
+nulisa_SFTPD_0,0 nulisa_SFTPD_,,float,1,1,0,0
+nulisa_SLIT2_0,0 nulisa_SLIT2_,,float,1,1,0,0
+nulisa_SMOC1_0,0 nulisa_SMOC1_,,float,1,1,0,0
+nulisa_SNAP25_0,0 nulisa_SNAP25_,,float,1,1,0,0
+nulisa_SNCA_0,0 nulisa_SNCA_,,float,1,1,0,0
+nulisa_SNCB_0,0 nulisa_SNCB_,,float,1,1,0,0
+nulisa_SOD1_0,0 nulisa_SOD1_,,float,1,1,0,0
+nulisa_SQSTM1_0,0 nulisa_SQSTM1_,,float,1,1,0,0
+nulisa_TAFA5_0,0 nulisa_TAFA5_,,float,1,1,0,0
+nulisa_TARDBP_0,0 nulisa_TARDBP_,,float,1,1,0,0
+nulisa_TEK_0,0 nulisa_TEK_,,float,1,1,0,0
+nulisa_TIMP3_0,0 nulisa_TIMP3_,,float,1,1,0,0
+nulisa_TNF_0,0 nulisa_TNF_,,float,1,1,0,0
+nulisa_TREM1_0,0 nulisa_TREM1_,,float,1,1,0,0
+nulisa_TREM2_0,0 nulisa_TREM2_,,float,1,1,0,0
+nulisa_UCHL1_0,0 nulisa_UCHL1_,,float,1,1,0,0
+nulisa_VCAM1_0,0 nulisa_VCAM1_,,float,1,1,0,0
+nulisa_VEGFA_0,0 nulisa_VEGFA_,,float,1,1,0,0
+nulisa_VEGFD_0,0 nulisa_VEGFD_,,float,1,1,0,0
+nulisa_VGF_0,0 nulisa_VGF_,,float,1,1,0,0
+nulisa_VSNL1_0,0 nulisa_VSNL1_,,float,1,1,0,0
+nulisa_YWHAZ_0,0 nulisa_YWHAZ_,,float,1,1,0,0
+nulisa_pSNCA129_0,0 nulisa_pSNCA129_,,float,1,1,0,0
+nulisa_pTDP43409_0,0 nulisa_pTDP43409_,,float,1,1,0,0
+nulisa_pTau181_0,0 nulisa_pTau181_,,float,1,1,0,0
+nulisa_pTau217_0,0 nulisa_pTau217_,,float,1,1,0,0
+nulisa_pTau231_0,0 nulisa_pTau231_,,float,1,1,0,0
+nulisa_AB38_2,2 nulisa_AB38_,,float,1,0,0,1
+nulisa_AB40_2,2 nulisa_AB40_,,float,1,0,0,1
+nulisa_AB42_2,2 nulisa_AB42_,,float,1,0,0,1
+nulisa_ACHE_2,2 nulisa_ACHE_,,float,1,0,0,1
+nulisa_AGRN_2,2 nulisa_AGRN_,,float,1,0,0,1
+nulisa_ANXA5_2,2 nulisa_ANXA5_,,float,1,0,0,1
+nulisa_APOE_2,2 nulisa_APOE_,,float,1,0,0,1
+nulisa_APOE4_2,2 nulisa_APOE4_,,float,1,0,0,1
+nulisa_ARSA_2,2 nulisa_ARSA_,,float,1,0,0,1
+nulisa_BACE1_2,2 nulisa_BACE1_,,float,1,0,0,1
+nulisa_BASP1_2,2 nulisa_BASP1_,,float,1,0,0,1
+nulisa_BDNF_2,2 nulisa_BDNF_,,float,1,0,0,1
+nulisa_CALB2_2,2 nulisa_CALB2_,,float,1,0,0,1
+nulisa_CCL11_2,2 nulisa_CCL11_,,float,1,0,0,1
+nulisa_CCL13_2,2 nulisa_CCL13_,,float,1,0,0,1
+nulisa_CCL17_2,2 nulisa_CCL17_,,float,1,0,0,1
+nulisa_CCL2_2,2 nulisa_CCL2_,,float,1,0,0,1
+nulisa_CCL22_2,2 nulisa_CCL22_,,float,1,0,0,1
+nulisa_CCL26_2,2 nulisa_CCL26_,,float,1,0,0,1
+nulisa_CCL3_2,2 nulisa_CCL3_,,float,1,0,0,1
+nulisa_CCL4_2,2 nulisa_CCL4_,,float,1,0,0,1
+nulisa_CD40LG_2,2 nulisa_CD40LG_,,float,1,0,0,1
+nulisa_CD63_2,2 nulisa_CD63_,,float,1,0,0,1
+nulisa_CHI3L1_2,2 nulisa_CHI3L1_,,float,1,0,0,1
+nulisa_CHIT1_2,2 nulisa_CHIT1_,,float,1,0,0,1
+nulisa_CNTN2_2,2 nulisa_CNTN2_,,float,1,0,0,1
+nulisa_CRH_2,2 nulisa_CRH_,,float,1,0,0,1
+nulisa_CRP_2,2 nulisa_CRP_,,float,1,0,0,1
+nulisa_CSF2_2,2 nulisa_CSF2_,,float,1,0,0,1
+nulisa_CST3_2,2 nulisa_CST3_,,float,1,0,0,1
+nulisa_CX3CL1_2,2 nulisa_CX3CL1_,,float,1,0,0,1
+nulisa_CXCL1_2,2 nulisa_CXCL1_,,float,1,0,0,1
+nulisa_CXCL10_2,2 nulisa_CXCL10_,,float,1,0,0,1
+nulisa_CXCL8_2,2 nulisa_CXCL8_,,float,1,0,0,1
+nulisa_ENO2_2,2 nulisa_ENO2_,,float,1,0,0,1
+nulisa_FABP3_2,2 nulisa_FABP3_,,float,1,0,0,1
+nulisa_FCN2_2,2 nulisa_FCN2_,,float,1,0,0,1
+nulisa_FGF2_2,2 nulisa_FGF2_,,float,1,0,0,1
+nulisa_FLT1_2,2 nulisa_FLT1_,,float,1,0,0,1
+nulisa_FOLR1_2,2 nulisa_FOLR1_,,float,1,0,0,1
+nulisa_GDF15_2,2 nulisa_GDF15_,,float,1,0,0,1
+nulisa_GDI1_2,2 nulisa_GDI1_,,float,1,0,0,1
+nulisa_GDNF_2,2 nulisa_GDNF_,,float,1,0,0,1
+nulisa_GFAP_2,2 nulisa_GFAP_,,float,1,0,0,1
+nulisa_GOT1_2,2 nulisa_GOT1_,,float,1,0,0,1
+nulisa_HBA1_2,2 nulisa_HBA1_,,float,1,0,0,1
+nulisa_HTT_2,2 nulisa_HTT_,,float,1,0,0,1
+nulisa_ICAM1_2,2 nulisa_ICAM1_,,float,1,0,0,1
+nulisa_IFNG_2,2 nulisa_IFNG_,,float,1,0,0,1
+nulisa_IGF1R_2,2 nulisa_IGF1R_,,float,1,0,0,1
+nulisa_IGFBP7_2,2 nulisa_IGFBP7_,,float,1,0,0,1
+nulisa_IL10_2,2 nulisa_IL10_,,float,1,0,0,1
+nulisa_IL12p70_2,2 nulisa_IL12p70_,,float,1,0,0,1
+nulisa_IL13_2,2 nulisa_IL13_,,float,1,0,0,1
+nulisa_IL15_2,2 nulisa_IL15_,,float,1,0,0,1
+nulisa_IL16_2,2 nulisa_IL16_,,float,1,0,0,1
+nulisa_IL17A_2,2 nulisa_IL17A_,,float,1,0,0,1
+nulisa_IL18_2,2 nulisa_IL18_,,float,1,0,0,1
+nulisa_IL1B_2,2 nulisa_IL1B_,,float,1,0,0,1
+nulisa_IL2_2,2 nulisa_IL2_,,float,1,0,0,1
+nulisa_IL33_2,2 nulisa_IL33_,,float,1,0,0,1
+nulisa_IL4_2,2 nulisa_IL4_,,float,1,0,0,1
+nulisa_IL5_2,2 nulisa_IL5_,,float,1,0,0,1
+nulisa_IL6_2,2 nulisa_IL6_,,float,1,0,0,1
+nulisa_IL6R_2,2 nulisa_IL6R_,,float,1,0,0,1
+nulisa_IL7_2,2 nulisa_IL7_,,float,1,0,0,1
+nulisa_IL9_2,2 nulisa_IL9_,,float,1,0,0,1
+nulisa_KDR_2,2 nulisa_KDR_,,float,1,0,0,1
+nulisa_KLK6_2,2 nulisa_KLK6_,,float,1,0,0,1
+nulisa_MAPT_2,2 nulisa_MAPT_,,float,1,0,0,1
+nulisa_MDH1_2,2 nulisa_MDH1_,,float,1,0,0,1
+nulisa_MME_2,2 nulisa_MME_,,float,1,0,0,1
+nulisa_MSLN_2,2 nulisa_MSLN_,,float,1,0,0,1
+nulisa_NEFH_2,2 nulisa_NEFH_,,float,1,0,0,1
+nulisa_NEFL_2,2 nulisa_NEFL_,,float,1,0,0,1
+nulisa_NGF_2,2 nulisa_NGF_,,float,1,0,0,1
+nulisa_NPTX1_2,2 nulisa_NPTX1_,,float,1,0,0,1
+nulisa_NPTX2_2,2 nulisa_NPTX2_,,float,1,0,0,1
+nulisa_NPTXR_2,2 nulisa_NPTXR_,,float,1,0,0,1
+nulisa_NPY_2,2 nulisa_NPY_,,float,1,0,0,1
+nulisa_NRGN_2,2 nulisa_NRGN_,,float,1,0,0,1
+nulisa_OligoSNCA_2,2 nulisa_OligoSNCA_,,float,1,0,0,1
+nulisa_PARK7_2,2 nulisa_PARK7_,,float,1,0,0,1
+nulisa_PDGFRB_2,2 nulisa_PDGFRB_,,float,1,0,0,1
+nulisa_PDLIM5_2,2 nulisa_PDLIM5_,,float,1,0,0,1
+nulisa_PGF_2,2 nulisa_PGF_,,float,1,0,0,1
+nulisa_PGK1_2,2 nulisa_PGK1_,,float,1,0,0,1
+nulisa_POSTN_2,2 nulisa_POSTN_,,float,1,0,0,1
+nulisa_PRDX6_2,2 nulisa_PRDX6_,,float,1,0,0,1
+nulisa_PSEN1_2,2 nulisa_PSEN1_,,float,1,0,0,1
+nulisa_PTN_2,2 nulisa_PTN_,,float,1,0,0,1
+nulisa_REST_2,2 nulisa_REST_,,float,1,0,0,1
+nulisa_RUVBL2_2,2 nulisa_RUVBL2_,,float,1,0,0,1
+nulisa_S100A12_2,2 nulisa_S100A12_,,float,1,0,0,1
+nulisa_S100B_2,2 nulisa_S100B_,,float,1,0,0,1
+nulisa_SAA1_2,2 nulisa_SAA1_,,float,1,0,0,1
+nulisa_SFRP1_2,2 nulisa_SFRP1_,,float,1,0,0,1
+nulisa_SFTPD_2,2 nulisa_SFTPD_,,float,1,0,0,1
+nulisa_SLIT2_2,2 nulisa_SLIT2_,,float,1,0,0,1
+nulisa_SMOC1_2,2 nulisa_SMOC1_,,float,1,0,0,1
+nulisa_SNAP25_2,2 nulisa_SNAP25_,,float,1,0,0,1
+nulisa_SNCA_2,2 nulisa_SNCA_,,float,1,0,0,1
+nulisa_SNCB_2,2 nulisa_SNCB_,,float,1,0,0,1
+nulisa_SOD1_2,2 nulisa_SOD1_,,float,1,0,0,1
+nulisa_SQSTM1_2,2 nulisa_SQSTM1_,,float,1,0,0,1
+nulisa_TAFA5_2,2 nulisa_TAFA5_,,float,1,0,0,1
+nulisa_TARDBP_2,2 nulisa_TARDBP_,,float,1,0,0,1
+nulisa_TEK_2,2 nulisa_TEK_,,float,1,0,0,1
+nulisa_TIMP3_2,2 nulisa_TIMP3_,,float,1,0,0,1
+nulisa_TNF_2,2 nulisa_TNF_,,float,1,0,0,1
+nulisa_TREM1_2,2 nulisa_TREM1_,,float,1,0,0,1
+nulisa_TREM2_2,2 nulisa_TREM2_,,float,1,0,0,1
+nulisa_UCHL1_2,2 nulisa_UCHL1_,,float,1,0,0,1
+nulisa_VCAM1_2,2 nulisa_VCAM1_,,float,1,0,0,1
+nulisa_VEGFA_2,2 nulisa_VEGFA_,,float,1,0,0,1
+nulisa_VEGFD_2,2 nulisa_VEGFD_,,float,1,0,0,1
+nulisa_VGF_2,2 nulisa_VGF_,,float,1,0,0,1
+nulisa_VSNL1_2,2 nulisa_VSNL1_,,float,1,0,0,1
+nulisa_YWHAZ_2,2 nulisa_YWHAZ_,,float,1,0,0,1
+nulisa_pSNCA129_2,2 nulisa_pSNCA129_,,float,1,0,0,1
+nulisa_pTDP43409_2,2 nulisa_pTDP43409_,,float,1,0,0,1
+nulisa_pTau181_2,2 nulisa_pTau181_,,float,1,0,0,1
+nulisa_pTau217_2,2 nulisa_pTau217_,,float,1,0,0,1
+nulisa_pTau231_2,2 nulisa_pTau231_,,float,1,0,0,1
+q32a,Father: myocardial infarction tai angina pectoris,,int8,1,0,0,0
+q32b,Father: stroke,,int8,1,0,0,0
+q33a,Mother: myocardial infarction tai angina pectoris,,int8,1,0,0,0
+q33b,Mother: stroke,,int8,1,0,0,0
+k41a,Father: myocardial infarction,,int8,1,0,0,0
+k42a,Mother: myocardial infarction,,int8,1,0,0,0
+ky40_1,Father: myocardial infarction before 60 years of age,,int8,1,0,0,0
+ky40_2,Father: myocardial infarction after 60 years of age,,int8,1,0,0,0
+fr02_46_3,Father: stroke before 75 years of age,,int8,1,0,0,0
+ky41_1,Mother: myocardial infarction before 60 years of age,,int8,1,0,0,0
+ky41_2,Mother: myocardial infarction after 60 years of age,,int8,1,0,0,0
+fr02_47_3,Mother: stroke before 60 years of age,,int8,1,0,0,0
+ky40_3,Father: stroke,,int8,1,0,0,0
+ky41_3,Mother: stroke,,int8,1,0,0,0
+fr07_43_1,Mother: myocardial infarction before 65 years of age,,int8,1,0,0,0
+fr07_43_2,Mother: myocardial infarction after 65 years of age,,int8,1,0,0,0
+parents_infarct,,,float,1,0,0,0
+ID,,,float,0,0,0,0

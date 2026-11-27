@@ -19,7 +19,18 @@ color_noncarrier= "#E69F00"
 color_control="#4D4D4D"
 color_interv = "#CC79A7"
 
-
+# Biomarkers excluded from ALL models
+# - core AD biomarkers (already excluded from the figures)
+# - NULISA APOE4: reflects the APOE e4 allele (genotype-driven distribution)
+# Excluding them here also means they are not counted in the FDR correction.
+# Lumipulse pTau217 is still used as the OUTCOME in the pTau217-outcome models and as a comparator in the correlation heatmaps.
+EXCLUDE_FROM_MODELS <- c(
+  "pTau181", "pTau231", "pTau217",
+  "AB38", "AB40", "AB42",
+  "NEFL", "GFAP",
+  "APOE4",
+  "lumipulse_ptau217"
+)
 
 # /////////////////////////////////////////////////////////////////////////////
 # Commune script for all parts ------------------------------------------------
@@ -76,20 +87,6 @@ list_colors <- c(
   "control" = color_control
 )
 
-# Biomarkers excluded from ALL models
-# - core AD biomarkers (already excluded from the figures)
-# - NULISA APOE4: reflects the APOE e4 allele (genotype-driven distribution)
-# Excluding them here also means they are not counted in the FDR correction.
-# Lumipulse pTau217 is still used as the OUTCOME in the pTau217-outcome models and as a comparator in the correlation heatmaps.
-EXCLUDE_FROM_MODELS <- c(
-  "pTau181", "pTau231", "pTau217",
-  "AB38", "AB40", "AB42",
-  "NEFL", "GFAP",
-  "APOE4",
-  "lumipulse_ptau217"
-)
-
-
 
 
 # ..............................................................................
@@ -99,6 +96,11 @@ folder_path <- "../synthetic_data/"
 original_path <- paste0(folder_path,"original/")
 processed_path <- paste0(folder_path,"processed/")
 output_path <- paste0("../outputs_R/total_cohort/")
+
+
+data_file_name <- data_file_name
+
+
 
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 for (fold in c("Longitudinal","cross-sectional","Stratified")){
@@ -176,7 +178,7 @@ source("functions/statistics.R")
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data
@@ -573,7 +575,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data
@@ -862,7 +864,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 
 
 # .............................................................................

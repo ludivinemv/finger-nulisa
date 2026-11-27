@@ -17,11 +17,9 @@ Sys.setlocale("LC_ALL", "en_US.UTF-8")
 # /////////////////////////////////////////////////////////////////////////////
 
 ## Options ----
-version <- "2-1"
+version <- "2-1" #script version
 
-group_name <- "intervention" # adherence analyses removed from this version
-
-
+# Choose colors for each group here
 color_carrier ="#0072B2"
 color_noncarrier= "#E69F00"
 color_control="#4D4D4D"
@@ -30,8 +28,23 @@ color_low = "#B0DDEB"
 color_male = "#009E73"
 color_female = "#D55E00"
 
+var_group <-  "sub_sample_id" # intervention/treament column name
+ref_group <- "sub_sample_id2" # intervention/treatment column name + value for intervention 
+interv_val_group <- "intervention" #how you call the intervention/treatment group (for formula)
+test_group_val <-"Intervention" #how you call the intervention/treatment group (for figures)
+ref_control <- "3" #value for reference (control)
 
-
+# Biomarkers excluded from ALL models
+# - core AD biomarkers (already excluded from the figures)
+# - NULISA APOE4: reflects the APOE e4 allele (genotype-driven distribution)
+# Excluding them here also means they are not counted in the FDR correction.
+EXCLUDE_FROM_MODELS <- c(
+  "pTau181", "pTau231", "pTau217",
+  "AB38", "AB40", "AB42",
+  "NEFL", "GFAP",
+  "APOE4",
+  "lumipulse_ptau217"
+)
 
 
 
@@ -88,11 +101,6 @@ gc()
 # ..............................................................................
 ## Variables definition  -------------------------------------------------------
 # ..............................................................................
-var_group <-  "sub_sample_id"
-ref_group <- "sub_sample_id2"
-interv_val_group <- "intervention"
-test_group_val <-"Intervention"
-ref_control = "3"
 
 
 list_colors <- c(
@@ -104,17 +112,8 @@ list_colors <- c(
   "control" = color_control,
   "low" = color_low
 )
-# Biomarkers excluded from ALL models
-# - core AD biomarkers (already excluded from the figures)
-# - NULISA APOE4: reflects the APOE e4 allele (genotype-driven distribution)
-# Excluding them here also means they are not counted in the FDR correction.
-EXCLUDE_FROM_MODELS <- c(
-  "pTau181", "pTau231", "pTau217",
-  "AB38", "AB40", "AB42",
-  "NEFL", "GFAP",
-  "APOE4",
-  "lumipulse_ptau217"
-)
+
+
 
 
 
@@ -124,17 +123,12 @@ EXCLUDE_FROM_MODELS <- c(
 
 folder_path <- "../synthetic_data/"
 original_path <- paste0(folder_path,"original/")
-processed_path <- paste0(folder_path,"processed/")
-output_path <- paste0("../outputs_R/",group_name,"/")
+output_path <- paste0("../outputs_R/",test_group_val,"/")
+
+data_file_name <- "dataset_original.csv"
 
 
-# Check that the input data file exists before running anything
-data_file <- paste0(original_path, "dataset_original.csv")
-if (!file.exists(data_file)) {
-  stop("Input file not found:\n", data_file,
-       "\nCheck folder_path / processed_path (or run the total-cohort script first, which creates it).")
-}
-
+# create output_path if does not exist
 if (!dir.exists(output_path)) {dir.create(output_path, recursive = TRUE)}# Create the folder if it does not exist
 for (fold in c("Longitudinal","cross-sectional","Stratified","Stratified_sex")){
   if (!dir.exists(paste0(output_path,"/",fold))) {dir.create(paste0(output_path,"/",fold))}# Create the folder if it does not exist
@@ -544,7 +538,7 @@ plot_volcano(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 # .............................................................................
 # Load data
 # .............................................................................
@@ -1487,7 +1481,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 # .............................................................................
 # Load data
 # .............................................................................
@@ -1987,7 +1981,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data
@@ -2216,7 +2210,7 @@ write_csv(
 # .............................................................................
 # File path
 # .............................................................................
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data
@@ -3379,7 +3373,7 @@ write_csv(
 # File path
 # .............................................................................
 
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 # .............................................................................
 # Load data
 # .............................................................................
@@ -3674,7 +3668,7 @@ write_csv(
 # File path
 # .............................................................................
 
-file_path <- paste0(original_path,"dataset_original.csv")
+file_path <- paste0(original_path,data_file_name)
 
 # .............................................................................
 # Load data

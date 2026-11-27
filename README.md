@@ -74,7 +74,9 @@ pip install -r python/requirements.txt
 
 ## Running the analyses with the synthetic dataset
 
-Once the required environments and dependencies are installed, run the scripts from the root directory of the repository. It will take less than one hour to run all the scripts for the synthetic dataset with the current settings.
+Once the required environments and dependencies are installed, run the scripts from the root directory of the repository. It should take less than one hour to run all the scripts for the synthetic dataset with the current settings.
+
+Outputs from R scripts will appear in the folder outputs_R. Outputs from python scripts will appear in the folder outputs_python.
 
 **R scripts**
 
@@ -88,6 +90,18 @@ Once the required environments and dependencies are installed, run the scripts f
 - `python/demographic.py`: Performs demographic analyses.
 - `python/bbm_trajectory_plots.py`: Generates BBM trajectory plots.
 - `python/elasticnet.py`: Trains and evaluates ElasticNet models.
+
+
+
+## Running the analyses with your data
+
+To ensure the scripts work correctly with your data, we recommend using the same column names as those specified in synthetic_data/original/meta_data.csv.
+
+To apply the scripts to your data, change the following with your paths and file names. 
+- In R scripts, update paths under "## Path definition ----"
+- In R scripts update the variables under section "# Arguments ----"
+- In R script responder_analysis.R, define high adherence under "# Create adherence groups"
+- In python scripts, update variables under section "#! Options ########"
 
 
 
